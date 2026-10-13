@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supplementary - RoMo Hands: A Large Scale Richly Organized Text to Hand Motion Dataset</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-2: #0a0c11;
+    --surface: #1a1d27;
+    --surface-2: #242836;
+    --border: #2e3345;
+    --border-strong: #3a4056;
+    --text: #e7e7ee;
+    --text-muted: #b6bccd;
+    --text-dim: #8a93a4;
+    --accent: #818cf8;
+    --accent-2: #6366f1;
+    --accent-glow: rgba(129, 140, 248, 0.18);
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --orange: #fb923c;
+    --pink: #f472b6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body {
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(99, 102, 241, 0.12), transparent 60%),
+      radial-gradient(900px 500px at 90% 0%, rgba(244, 114, 182, 0.08), transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  /* ── Shared supplementary nav (also defined on every other page) ────── */
+  .suppl-nav {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    padding: 10px 20px;
+    background: rgba(15, 17, 23, 0.92);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .suppl-nav-brand {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text);
+    margin-right: 10px; opacity: 0.85;
+  }
+  .suppl-nav-link {
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(36, 40, 54, 0.5);
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+    line-height: 1.2;
+  }
+  .suppl-nav-link:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+    background: rgba(36, 40, 54, 0.85);
+  }
+  .suppl-nav-link.active {
+    background: rgba(129, 140, 248, 0.18);
+    color: #d3d8fa;
+    border-color: rgba(129, 140, 248, 0.55);
+  }
+
+  /* ── Shared TL;DR strip (also defined on every other page) ──────────── */
+  .tldr {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 18px;
+    margin: 18px 0 24px;
+    background: rgba(129, 140, 248, 0.08);
+    border: 1px solid rgba(129, 140, 248, 0.32);
+    border-radius: 12px;
+    font-size: 14.5px; line-height: 1.55; color: var(--text);
+  }
+  .tldr-tag {
+    flex-shrink: 0;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #d3d8fa;
+    background: rgba(129, 140, 248, 0.22);
+    border: 1px solid rgba(129, 140, 248, 0.45);
+    padding: 3px 9px; border-radius: 999px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .tldr-text { flex: 1; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(26, 29, 39, 0.6);
+    backdrop-filter: blur(6px);
+  }
+  .eyebrow svg { width: 14px; height: 14px; color: var(--accent); }
+
+  h1.title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-top: 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #c8cad8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    margin-top: 14px;
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 720px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+    margin: 40px 0 32px;
+  }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 26px;
+    min-height: 260px;
+    background: linear-gradient(180deg, var(--surface) 0%, #161924 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px 200px at 0% 0%, var(--accent-glow), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(129, 140, 248, 0.15);
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover .open-cta { color: var(--accent); }
+  .card:hover .open-cta svg { transform: translateX(2px); }
+
+  .icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--accent);
+  }
+  .icon-wrap svg { width: 24px; height: 24px; }
+  .card[data-tone="stats"] .icon-wrap { color: var(--green); }
+  .card[data-tone="grid"]  .icon-wrap { color: var(--accent); }
+  .card[data-tone="gen"]   .icon-wrap { color: var(--pink); }
+  .card[data-tone="bench"] .icon-wrap { color: var(--orange); }
+
+  .card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .card p {
+    font-size: 14.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .open-cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s ease;
+  }
+  .open-cta svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+  }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  footer .paper-cite {
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 40px 20px 60px; }
+    .card { min-height: auto; }
+  }
+</style>
+</head>
+<body>
+<nav class="suppl-nav" aria-label="Supplementary pages">
+  <span class="suppl-nav-brand">RoMo Hands</span>
+  <a href="index.html" class="suppl-nav-link active">Home</a>
+  <a href="Dataset_statistics.html" class="suppl-nav-link">Statistics</a>
+  <a href="Hand_motion_explorer.html" class="suppl-nav-link">Explorer</a>
+  <a href="Hand_motion_example_grid.html" class="suppl-nav-link">Grid</a>
+  <a href="RoMo_Hands_generative_method_comparison.html" class="suppl-nav-link">Comparisons</a>
+  <a href="RoMo_Hands_generative_method_benchmark.html" class="suppl-nav-link">Benchmark</a>
+</nav>
+<div class="page">
+  <span class="eyebrow"><i data-lucide="folder-open"></i> Supplementary materials</span>
+  <h1 class="title">RoMo Hands: A Large Scale Richly Organized Text&#8209;to&#8209;Hand Motion Dataset</h1>
+  <p class="subtitle">
+    Interactive supplementary artifacts for the RoMo Hands dataset paper.
+    Explore aggregate statistics, browse representative motion sequences in 3D,
+    and compare ground-truth captures against generative baselines.
+  </p>
+
+  <div class="tldr">
+    <span class="tldr-tag">TL;DR</span>
+    <span class="tldr-text">
+      Five interactive supplementary artifacts for the RoMo Hands paper.
+      Start with <strong>Statistics</strong> for scale,
+      <strong>Explorer</strong> / <strong>Grid</strong> for qualitative diversity,
+      <strong>Comparisons</strong> for visual baseline behavior,
+      and <strong>Benchmark</strong> for the numbers.
+    </span>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">Browse</div>
+
+  <div class="grid">
+    <a class="card" data-tone="stats" href="Dataset_statistics.html">
+      <div class="icon-wrap"><i data-lucide="bar-chart-3"></i></div>
+      <h2>Dataset Statistics</h2>
+      <p>
+        Interactive dashboard summarizing sequence counts, durations, activity
+        levels, and per-finger dynamics across RoMo Hands and the comparison datasets.
+      </p>
+      <span class="open-cta">Open dashboard <i data-lucide="arrow-right"></i></span>
+    </a>
+
+    <a class="card" data-tone="grid" href="Hand_motion_explorer.html">
+      <div class="icon-wrap"><i data-lucide="layout-grid"></i></div>
+      <h2>Hand Motion Explorer</h2>
+      <p>
+        Searchable, filterable card-grid viewer over a 20-clip subset of RoMo
+        Hands. Each card opens a full MANO viewer with timeline scrubber,
+        five-level captions, taxonomy labels and per-clip quality scores.
+      </p>
+      <span class="open-cta">Open explorer <i data-lucide="arrow-right"></i></span>
+    </a>
+
+    <a class="card" data-tone="grid" href="Hand_motion_example_grid.html">
+      <div class="icon-wrap"><i data-lucide="grid-3x3"></i></div>
+      <h2>Synchronized Motion Grid</h2>
+      <p>
+        Single-scene 3D viewer rendering all 20 representative bimanual MANO
+        sequences in a synchronized grid. Click a tile to focus, scrub and
+        inspect one motion at a time.
+      </p>
+      <span class="open-cta">Open grid viewer <i data-lucide="arrow-right"></i></span>
+    </a>
+
+    <a class="card" data-tone="gen" href="RoMo_Hands_generative_method_comparison.html">
+      <div class="icon-wrap"><i data-lucide="git-compare-arrows"></i></div>
+      <h2>Generative Method Comparisons</h2>
+      <p>
+        Side-by-side MANO viewers comparing ground-truth motion against generative
+        baselines (MDM, MoMask, MotionMillion, Kimodo) across five caption levels.
+      </p>
+      <span class="open-cta">Open comparison <i data-lucide="arrow-right"></i></span>
+    </a>
+
+    <a class="card" data-tone="bench" href="RoMo_Hands_generative_method_benchmark.html">
+      <div class="icon-wrap"><i data-lucide="radar"></i></div>
+      <h2>Generative Method Benchmark</h2>
+      <p>
+        Quantitative evaluation of generative baselines: taxonomy-aware semantic
+        retrieval (R@K, MM-Dist, CLIP), distributional metrics (FID, diversity),
+        and physical plausibility.
+      </p>
+      <span class="open-cta">Open benchmark <i data-lucide="arrow-right"></i></span>
+    </a>
+  </div>
+
+  <footer>
+    <span class="paper-cite">RoMo Hands: A Large Scale Richly Organized Text&#8209;to&#8209;Hand Motion Dataset.</span>
+    <span>Supplementary site &middot; NeurIPS 2026</span>
+  </footer>
+</div>
+
+<script>
+  if (window.lucide && typeof window.lucide.createIcons === "function") {
+    window.lucide.createIcons();
+  }
+</script>
+</body>
+</html>

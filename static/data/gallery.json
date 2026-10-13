@@ -1,0 +1,50 @@
+[
+  {
+    "id": "57202782",
+    "label": "typing on keyboard",
+    "short": "The person sits at a desk and types on a computer keyboard with both hands.",
+    "medium": "The person is seated in front of multiple monitors, typing on a keyboard. Both hands are active, with palms facing downward and fingers curled over the keys. The grip is a standard typing posture, with fingers poised to strike keys rapidly.",
+    "duration_s": 2.0,
+    "src": "static/gallery/hand-example-01.glb"
+  },
+  {
+    "id": "57137281",
+    "label": "playing piano keys",
+    "short": "The woman sits at a piano and presses the keys with both hands.",
+    "medium": "The woman is seated at a black upright piano, playing a melody. Her hands are positioned over the keyboard with palms facing downward and fingers slightly arched. She uses a precision grip, pressing individual keys with her fingertips while her wrists remain relatively stable.",
+    "duration_s": 3.5,
+    "src": "static/gallery/hand-example-02.glb"
+  },
+  {
+    "id": "57111053",
+    "label": "counting change coins",
+    "short": "The woman counts coins on the counter while looking at the camera.",
+    "medium": "The woman stands behind the counter and uses both hands to handle small objects, likely coins. Her palms are mostly facing inward or downward as she manipulates the items. Her fingers are curled in a precision grip, picking up and sorting the coins one by one. She occasionally looks up while her hands continue the repetitive counting motion.",
+    "duration_s": 9.1,
+    "src": "static/gallery/hand-example-03.glb"
+  },
+  {
+    "id": "57133551",
+    "label": "hammering nail into wood",
+    "short": "The man uses his left hand to hold a nail and his right to hammer it.",
+    "medium": "The man is kneeling on a wooden deck. His left hand holds a nail steady against the wood with a precision grip, while his right hand grips a hammer and strikes the nail repeatedly.",
+    "duration_s": 3.6,
+    "src": "static/gallery/hand-example-04.glb"
+  },
+  {
+    "id": "56960066",
+    "label": "open jar lid",
+    "short": "The woman uses both hands to twist and open a jar lid.",
+    "medium": "The woman uses both hands to open a jar. Her left hand holds the jar steady while her right hand grips the lid. She twists the lid counter-clockwise with a firm grip, then lifts it off.",
+    "duration_s": 2.9,
+    "src": "static/gallery/hand-example-05.glb"
+  },
+  {
+    "id": "56836732",
+    "label": "tying shoelaces",
+    "short": "The girl uses both hands to tie the laces of her pink sneakers.",
+    "medium": "The girl sits on the floor, using both hands to manipulate the shoelaces. Her palms face inward and downward as she holds the laces. Her fingers are curled in a precision grip, pinching the fabric loops to form a knot.",
+    "duration_s": 10.0,
+    "src": "static/gallery/hand-example-06.glb"
+  }
+]

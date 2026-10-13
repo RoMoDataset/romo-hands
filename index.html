@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6568df">
+
+  <title>RoMo Hands: A Large Scale Richly Organized Text to Hand Motion Dataset</title>
+  <meta name="description" content="RoMo Hands is a large-scale text-paired bimanual hand-motion dataset with 542K sequences, five caption levels, a 393-D representation, and a benchmark spanning semantic and physical quality.">
+  <meta name="keywords" content="hand motion, text-to-motion, bimanual motion, MANO, motion generation, dataset, NeurIPS 2026">
+  <meta name="author" content="Yizhak Ben-Shabat, Jiahao Zhang, Joseph Liu, Seonghyeon Moon, Young-Yoon Lee, Haomiao Jiang, Oren Jacob, Mubbasir Kapadia">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="RoMo Hands: A Large Scale Richly Organized Text to Hand Motion Dataset">
+  <meta property="og:description" content="542K bimanual sequences, 884 hours, five caption levels, and a benchmark for semantic and physical hand-motion quality.">
+  <meta property="og:url" content="https://romodataset.github.io/romo-hands/">
+  <meta property="og:image" content="https://romodataset.github.io/romo-hands/static/teaser.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="static/romo-hands-mark-ink.png">
+  <link rel="apple-touch-icon" href="static/romo-hands-mark-ink.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/site.css?v=16">
+</head>
+
+<body>
+  <header class="site-header" id="site-header">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="RoMo Hands home">
+        <img class="brand-mark" src="static/romo-hands-mark-ink.png" alt="">
+        <span>RoMo Hands</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#gallery">Gallery</a>
+        <a href="#abstract">Overview</a>
+        <a href="#explore">Explore</a>
+        <a href="https://davidzhang73.github.io/romo-website/" target="_blank" rel="noopener">RoMo ↗</a>
+      </div>
+
+      <a class="nav-cta" href="https://huggingface.co/datasets/RoMoDataset/RoMo-Hands" target="_blank" rel="noopener">
+        🤗 Dataset
+      </a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-copy reveal">
+        <div class="hero-kickers">
+          <div class="venue-pill">NeurIPS 2026 · Accepted Poster</div>
+          <a class="romo-family-link" href="https://davidzhang73.github.io/romo-website/" target="_blank" rel="noopener">
+            RoMo motion ecosystem <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <h1>RoMo Hands</h1>
+        <p class="hero-subtitle">
+          A Large Scale
+          <span class="acronym"><u>R</u>ichly <u>O</u>rganized</span>
+          Text to Hand <span class="acronym"><u>Mo</u>tion</span> Dataset
+        </p>
+
+        <div class="authors">
+          <a href="https://www.itzikbs.com/" target="_blank" rel="noopener">Yizhak Ben-Shabat</a><sup>1</sup>,
+          <a href="https://academic.davidz.cn/" target="_blank" rel="noopener">Jiahao Zhang</a><sup>1,2</sup>,
+          <a href="https://scholar.google.com/citations?user=X2CoK-8AAAAJ" target="_blank" rel="noopener">Joseph Liu</a><sup>1</sup>,
+          <a href="https://moonsh.github.io/" target="_blank" rel="noopener">Seonghyeon Moon</a><sup>1</sup>,
+          <a href="https://scholar.google.com/citations?user=LdA0DacAAAAJ" target="_blank" rel="noopener">Young-Yoon Lee</a><sup>1</sup>,
+          <a href="https://scholar.google.com/citations?user=RB6RIxkAAAAJ" target="_blank" rel="noopener">Haomiao Jiang</a><sup>1</sup>,
+          <a href="https://about.me/orenjacob" target="_blank" rel="noopener">Oren Jacob</a><sup>1</sup>,
+          <a href="https://scholar.google.com/citations?user=xhkzmycAAAAJ" target="_blank" rel="noopener">Mubbasir Kapadia</a><sup>1,3</sup>
+        </div>
+        <div class="affiliations">
+          <sup>1</sup><a href="https://www.roblox.com/" target="_blank" rel="noopener">Roblox</a>
+          <span>·</span>
+          <sup>2</sup><a href="https://www.anu.edu.au/" target="_blank" rel="noopener">Australian National University</a>
+          <span>·</span>
+          <sup>3</sup><a href="https://www.rutgers.edu/" target="_blank" rel="noopener">Rutgers University</a>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button button-dark" href="static/paper/RoMo_Hands.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/></svg>
+            Paper
+          </a>
+          <a class="button button-light" href="static/supplementary/RoMo_Hands_Supplementary.zip" download>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+            Supplementary ZIP
+          </a>
+          <a class="button button-light" href="https://huggingface.co/datasets/RoMoDataset/RoMo-Hands" target="_blank" rel="noopener">
+            <span aria-hidden="true">🤗</span> Dataset
+          </a>
+          <a class="button button-light" href="https://github.com/RoMoDataset/motion-toolbox" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4zM9 8V5h6v3M4 12h16"/></svg>
+            Motion Toolbox
+          </a>
+        </div>
+      </div>
+
+      <div class="teaser-frame reveal">
+        <img src="static/teaser.png" alt="RoMo Hands dataset and benchmark overview">
+      </div>
+    </section>
+
+    <section class="section band" id="gallery">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Motion gallery</p>
+          <h2>Hand motion in context</h2>
+          <p>
+            Every card is a real RoMo Hands sequence. The hands are highlighted in pink;
+            drag to orbit, scroll to zoom, and hover to inspect the motion.
+          </p>
+        </div>
+        <div class="motion-gallery reveal" id="motion-gallery" aria-live="polite">
+          <div class="gallery-loading">Loading hand animations…</div>
+        </div>
+        <div class="gallery-footer reveal">
+          <p>Showing six representative sequences from the supplementary release.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="abstract">
+      <div class="narrow reveal">
+        <p class="eyebrow">Overview</p>
+        <h2>Body-scale data for dexterous hand motion</h2>
+        <div class="abstract-copy">
+          <p>
+            Text-driven body motion generation has advanced rapidly, but pure-hand synthesis remains bottlenecked by data.
+            Existing datasets often treat hands as rigid end-effectors, lack fine-grained captions, or are too small for modern generative models.
+          </p>
+          <p>
+            <strong>RoMo Hands</strong> introduces approximately 542K in-the-wild bimanual sequences spanning 884 hours and 95.5 million frames.
+            Each sequence carries five caption levels, from a compact action tag to a paragraph describing finger articulation, temporal dynamics,
+            palm orientation, and spatial relations.
+          </p>
+          <p>
+            We also introduce a 393-D bimanual representation and benchmark diffusion, masked-token, and autoregressive generators.
+            The central result is not a single winner: semantic alignment and physical plausibility produce different rankings,
+            showing why hand-motion generation requires both kinds of evaluation.
+          </p>
+        </div>
+      </div>
+
+      <div class="stats-grid reveal" aria-label="Dataset headline statistics">
+        <article class="stat">
+          <strong data-count="541929">541,929</strong>
+          <span>motion sequences</span>
+        </article>
+        <article class="stat">
+          <strong data-count="884" data-suffix=" h">884 h</strong>
+          <span>hand motion</span>
+        </article>
+        <article class="stat">
+          <strong data-count="95.5" data-suffix="M">95.5M</strong>
+          <span>frames at 30 fps</span>
+        </article>
+        <article class="stat">
+          <strong data-count="5">5</strong>
+          <span>caption levels</span>
+        </article>
+        <article class="stat">
+          <strong data-count="393" data-suffix="-D">393-D</strong>
+          <span>motion representation</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell work-explorer" id="explore">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Explore the work</p>
+        <h2>Go deeper, one layer at a time</h2>
+        <p>
+          Explore the dataset, representation, benchmark, and quality audit
+          without turning the main page into the full supplement.
+        </p>
+      </div>
+      <div class="work-tabs reveal" role="tablist" aria-label="RoMo Hands technical details">
+        <button class="work-tab active" id="tab-dataset" type="button" role="tab" aria-selected="true" aria-controls="dataset" data-work-tab="dataset">
+          <span>01</span> Dataset
+        </button>
+        <button class="work-tab" id="tab-representation" type="button" role="tab" aria-selected="false" aria-controls="representation" data-work-tab="representation">
+          <span>02</span> Representation
+        </button>
+        <button class="work-tab" id="tab-benchmark" type="button" role="tab" aria-selected="false" aria-controls="benchmark" data-work-tab="benchmark">
+          <span>03</span> Benchmark
+        </button>
+        <button class="work-tab" id="tab-quality" type="button" role="tab" aria-selected="false" aria-controls="quality" data-work-tab="quality">
+          <span>04</span> Quality
+        </button>
+      </div>
+    </section>
+
+    <section class="section band work-panel" id="dataset" role="tabpanel" aria-labelledby="tab-dataset" data-work-panel="dataset">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Dataset</p>
+          <h2>Scale without giving up hand detail</h2>
+          <p>RoMo Hands extends the RoMo collection stack with hand-specific reconstruction, filtering, and language supervision.</p>
+        </div>
+
+        <div class="chart-grid">
+          <article class="chart-card reveal">
+            <div class="chart-head">
+              <div>
+                <p class="eyebrow">Scale</p>
+                <h3>Duration and caption volume</h3>
+              </div>
+              <div class="chart-controls" role="group" aria-label="Dataset scope filter">
+                <button class="chart-toggle active" data-scale-scope="all">All</button>
+                <button class="chart-toggle" data-scale-scope="pure">Pure hands</button>
+              </div>
+            </div>
+            <div class="plot" id="chart-scale" aria-label="Interactive dataset scale comparison"></div>
+            <p class="chart-caption"><strong>10.6× the duration of CLUTCH.</strong> Hover for setting and frame counts; use the scope control to focus on pure-hand datasets.</p>
+          </article>
+          <article class="chart-card reveal">
+            <div class="chart-head">
+              <div>
+                <p class="eyebrow">Language</p>
+                <h3>Caption depth by level</h3>
+              </div>
+            </div>
+            <div class="plot" id="chart-captions" aria-label="Interactive caption depth chart"></div>
+            <p class="chart-caption"><strong>Five supervision levels span a 43× range.</strong> Hover for mean word counts and comparator values.</p>
+          </article>
+        </div>
+
+        <div class="feature-grid dataset-feature-grid reveal">
+          <article class="feature-card">
+            <span class="feature-index">01</span>
+            <h3>In-the-wild bimanual motion</h3>
+            <p>MANO motion recovered from diverse public video, anchored to temporally consistent body wrists and filtered for visibility.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-index">02</span>
+            <h3>Dexterity-first curation</h3>
+            <p>Detection-ratio and articulation filters suppress occluded, static, and low-information clips before captioning.</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-index">03</span>
+            <h3>Five levels of language</h3>
+            <p>Captions progress from action tags to detailed descriptions of fingers, wrists, interactions, timing, and inferred intent.</p>
+          </article>
+        </div>
+
+        <div class="figure-card wide reveal">
+          <img src="static/images/pipeline-v2.png" alt="RoMo Hands curation pipeline">
+          <div class="figure-caption">
+            <strong>The RoMo Hands curation pipeline.</strong>
+            RoMo's web-video collection and semantic segmentation feed WiLoR hand recovery, wrist anchoring,
+            dexterity filtering, and five-level captioning.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell work-panel" id="representation" role="tabpanel" aria-labelledby="tab-representation" data-work-panel="representation" hidden>
+      <div class="section-heading reveal">
+        <p class="eyebrow">Representation</p>
+        <h2>A body-style representation built for two hands</h2>
+        <p>
+          <span class="math">R<sub>hand</sub></span> wraps MANO rotations in explicit positions, velocities, and a yaw-only bimanual heading.
+          A synthetic root at the wrist midpoint preserves symmetry without choosing one hand as the anchor.
+        </p>
+      </div>
+
+      <div class="representation-card reveal">
+        <div class="repr-total">
+          <span>Symmetric per-frame representation</span>
+          <strong>393 dimensions</strong>
+        </div>
+        <div class="repr-composition" aria-label="192-dimensional left hand plus a 9-dimensional shared root plus a 192-dimensional right hand equals 393 dimensions">
+          <article class="repr-hand">
+            <div class="repr-hand-head">
+              <span>Left MANO hand</span>
+              <strong>192-D</strong>
+            </div>
+            <div class="repr-hand-channels">
+              <span class="position"><strong>48</strong><small>positions</small></span>
+              <span class="velocity"><strong>48</strong><small>velocities</small></span>
+              <span class="rotation"><strong>96</strong><small>6D rotations</small></span>
+            </div>
+            <p>16 joints × 12 channels</p>
+          </article>
+
+          <span class="repr-operator" aria-hidden="true">+</span>
+
+          <article class="repr-root-card">
+            <span>Shared frame</span>
+            <strong>9-D</strong>
+            <small>Synthetic root</small>
+          </article>
+
+          <span class="repr-operator" aria-hidden="true">+</span>
+
+          <article class="repr-hand">
+            <div class="repr-hand-head">
+              <span>Right MANO hand</span>
+              <strong>192-D</strong>
+            </div>
+            <div class="repr-hand-channels">
+              <span class="position"><strong>48</strong><small>positions</small></span>
+              <span class="velocity"><strong>48</strong><small>velocities</small></span>
+              <span class="rotation"><strong>96</strong><small>6D rotations</small></span>
+            </div>
+            <p>16 joints × 12 channels</p>
+          </article>
+        </div>
+        <div class="repr-equation" aria-label="Representation total">
+          <span>192-D left</span>
+          <b>+</b>
+          <span>9-D shared root</span>
+          <b>+</b>
+          <span>192-D right</span>
+          <b>=</b>
+          <strong>393-D</strong>
+        </div>
+        <div class="repr-notes">
+          <span>32 MANO joints</span>
+          <span>Wrist-midpoint root</span>
+          <span>Inter-wrist heading</span>
+          <span>Type-aware normalization</span>
+        </div>
+      </div>
+
+      <div class="result-callout reveal">
+        <div>
+          <p class="eyebrow">Generation-side ablation</p>
+          <h3>Redundant channels help across two generator families</h3>
+          <p>
+            With architecture and training held fixed, the full representation improves R@1 from
+            <strong>39.5% to 54.7%</strong> over raw MANO for MoMask and from
+            <strong>64.6% to 66.5%</strong> for Kimodo M.
+          </p>
+          <p class="callout-note">
+            Ablation runs report best-validation checkpoints from a shared sweep, so their absolute
+            values are not comparable to the benchmark table.
+          </p>
+        </div>
+        <table aria-label="Representation ablation R at 1">
+          <thead><tr><th>Representation</th><th>MoMask</th><th>Kimodo M</th></tr></thead>
+          <tbody>
+            <tr class="ours"><td>R<sub>hand</sub>-393</td><td>54.7%</td><td>66.5%</td></tr>
+            <tr><td>MANO-102</td><td>39.5%</td><td>64.6%</td></tr>
+            <tr><td>CLUTCH-198</td><td>36.8%</td><td>64.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section band work-panel" id="benchmark" role="tabpanel" aria-labelledby="tab-benchmark" data-work-panel="benchmark" hidden>
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Benchmark</p>
+          <h2>Semantic alignment is not physical quality</h2>
+          <p>Four generator configurations are evaluated with a shared representation, text encoder, semantic evaluator, and hand-specific physical metrics.</p>
+        </div>
+
+        <div class="benchmark-grid reveal">
+          <article class="metric-family semantic">
+            <p class="family-label">Semantic</p>
+            <h3>Does the motion match the text?</h3>
+            <p>R-Precision, MM-Dist, FID, CLIP alignment, diversity, and multimodality are measured in a frozen text–motion embedding space.</p>
+            <div class="leader"><span>Retrieval leader</span><strong>MoMask</strong><small>R@1 54.00%</small></div>
+          </article>
+          <div class="versus" aria-hidden="true">≠</div>
+          <article class="metric-family physical">
+            <p class="family-label">Physical</p>
+            <h3>Does the hand move plausibly?</h3>
+            <p>Acceleration, local jerk, inter- and self-penetration, and high-frequency power expose failures hidden by retrieval scores.</p>
+            <div class="leader"><span>Cleanest overall</span><strong>Kimodo M</strong><small>Inter-penetration 1.06%</small></div>
+          </article>
+        </div>
+
+        <article class="chart-card chart-card-wide reveal">
+          <div class="chart-head">
+            <div>
+              <p class="eyebrow">Taxonomy-stratified evaluation</p>
+              <h3>Model behavior changes by action category</h3>
+            </div>
+            <label class="chart-select-label">
+              Category
+              <select id="taxonomy-category" aria-label="Taxonomy category"></select>
+            </label>
+          </div>
+          <div class="plot plot-radar" id="chart-taxonomy" aria-label="Interactive taxonomy benchmark radar"></div>
+          <p class="chart-caption" id="taxonomy-caption"><strong>Aggregate scores hide category-specific behavior.</strong> Select a category and hover each axis for its raw metric value.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section shell work-panel" id="quality" role="tabpanel" aria-labelledby="tab-quality" data-work-panel="quality" hidden>
+      <div class="section-heading reveal">
+        <p class="eyebrow">Quality audit</p>
+        <h2>Human validation and leakage checks</h2>
+        <p>Human ratings and a leakage audit test the quality of an automatically curated dataset.</p>
+      </div>
+
+      <div class="audit-grid reveal">
+        <article class="audit-card">
+          <span class="audit-kicker">250 clips · 12 raters</span>
+          <h3>Captions track the captured action</h3>
+          <div class="audit-score"><strong>4.16</strong><span>/ 5 action match</span></div>
+          <p>81% of ratings are at least 4/5. Hand-specific caption faithfulness averages 3.79/5 across 370 ratings.</p>
+        </article>
+        <article class="audit-card">
+          <span class="audit-kicker">Pose plausibility</span>
+          <h3>Recovered hand motion is generally usable</h3>
+          <div class="audit-score"><strong>3.53</strong><span>/ 5 reconstruction quality</span></div>
+          <p>Raters assess jitter, discontinuities, and unnatural finger poses while viewing reconstruction beside source video.</p>
+        </article>
+        <article class="audit-card">
+          <span class="audit-kicker">Video-disjoint test audit</span>
+          <h3>Source overlap does not drive the ranking</h3>
+          <div class="audit-score"><strong>≤ 2.6 pts</strong><span>absolute R@1 shift</span></div>
+          <p>Removing test clips whose source video appears in train preserves the ranking of all four evaluated generators.</p>
+        </article>
+      </div>
+
+      <div class="quality-charts">
+        <article class="chart-card reveal">
+          <div class="chart-head">
+            <div>
+              <p class="eyebrow">Human evaluation</p>
+              <h3>Caption fidelity by detail level</h3>
+            </div>
+          </div>
+          <div class="plot" id="chart-user-study" aria-label="Interactive caption-level human evaluation chart"></div>
+          <p class="chart-caption"><strong>Fine-grained caption accuracy remains stable across levels.</strong> Hover for mean scores and the share of ratings at least 4/5.</p>
+        </article>
+        <article class="chart-card reveal">
+          <div class="chart-head">
+            <div>
+              <p class="eyebrow">Dataset diagnostics</p>
+              <h3>Motion statistics explorer</h3>
+            </div>
+            <a class="chart-head-link" href="static/supplementary/Dataset_statistics.html" target="_blank" rel="noopener">
+              Full report ↗
+            </a>
+          </div>
+          <div class="statistics-tabs" role="group" aria-label="Dataset statistic">
+            <button class="chart-toggle active" data-stat-view="activity">Activity</button>
+            <button class="chart-toggle" data-stat-view="balance">Hand balance</button>
+            <button class="chart-toggle" data-stat-view="symmetry">L/R symmetry</button>
+            <button class="chart-toggle" data-stat-view="temporal">Temporal quality</button>
+          </div>
+          <div class="plot" id="chart-motion-stats" aria-label="Interactive motion statistics explorer"></div>
+          <p class="chart-caption" id="motion-stats-caption"><strong>RoMo Hands reduces static clips to 0.2%.</strong> Switch views to inspect hand engagement, bilateral symmetry, and temporal quality.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell citation-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Citation</p>
+        <h2>RoMo Hands</h2>
+      </div>
+      <div class="bibtex-card reveal">
+        <button class="bibtex-copy" type="button" data-copy-target="bibtex">Copy</button>
+<pre id="bibtex">@inproceedings{BenShabat2026RoMoHands,
+  author    = {Ben-Shabat, Yizhak and Zhang, Jiahao and Liu, Joseph and Moon, Seonghyeon and Lee, Young-Yoon and Jiang, Haomiao and Jacob, Oren and Kapadia, Mubbasir},
+  title     = {{RoMo Hands}: A Large Scale Richly Organized Text to Hand Motion Dataset},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026},
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <p>RoMo Hands · NeurIPS 2026</p>
+      <p>Released under <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a> for non-commercial research use.</p>
+    </div>
+  </footer>
+
+  <button class="to-top" id="to-top" aria-label="Scroll to top">↑</button>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="static/js/site.js?v=8"></script>
+  <script src="static/js/charts.js?v=8"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="static/js/gallery.js?v=9"></script>
+</body>
+</html>
