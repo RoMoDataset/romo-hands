@@ -393,6 +393,22 @@ button,
   object-fit: contain;
 }
 
+.video-frame {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-lift);
+}
+
+.video-frame video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: calc(var(--radius-lg) - 8px);
+  background: #0b0b0e;
+}
+
 .section {
   padding-top: 92px;
   padding-bottom: 92px;

@@ -1,0 +1,301 @@
+WEBVTT
+
+1
+00:00:01.250 --> 00:00:05.353
+Type a sentence, and today's models can animate a whole body.
+
+2
+00:00:05.403 --> 00:00:10.255
+But look closely at the hands, the way we grip, type, play, and gesture,
+
+3
+00:00:10.305 --> 00:00:13.728
+and you'll see that progress has lagged far behind.
+
+4
+00:00:13.778 --> 00:00:15.157
+The reason is simple:
+
+5
+00:00:15.207 --> 00:00:17.200
+there hasn't been enough data.
+
+6
+00:00:18.650 --> 00:00:19.780
+Meet RoMo Hands:
+
+7
+00:00:19.830 --> 00:00:25.240
+a large-scale, richly organized dataset for turning text into hand motion.
+
+8
+00:00:26.490 --> 00:00:30.102
+Body-motion datasets run to a thousand hours and more,
+
+9
+00:00:30.152 --> 00:00:32.543
+but treat the hands as rigid blocks.
+
+10
+00:00:32.593 --> 00:00:37.155
+Studio capture gets every finger right, but covers only a few hours,
+
+11
+00:00:37.205 --> 00:00:38.986
+and rarely comes with text.
+
+12
+00:00:39.036 --> 00:00:43.597
+And the newest text-paired hand datasets top out at around 80 hours.
+
+13
+00:00:43.647 --> 00:00:46.920
+Hands need body-scale data, paired with language.
+
+14
+00:00:48.170 --> 00:00:51.900
+RoMo Hands has over 540,000 two-handed sequences.
+
+15
+00:00:51.950 --> 00:00:55.217
+That's 884 hours, 95 million frames, and 2.
+
+16
+00:00:55.267 --> 00:00:56.683
+7 million captions.
+
+17
+00:00:56.733 --> 00:01:01.929
+It's more than ten times longer than the largest prior hand dataset,
+
+18
+00:01:01.979 --> 00:01:07.560
+putting hand motion in the same league as body motion for the first time.
+
+19
+00:01:08.810 --> 00:01:12.276
+To build it, we start from in-the-wild web video.
+
+20
+00:01:12.326 --> 00:01:15.792
+The RoMo pipeline recovers each person's 3D body.
+
+21
+00:01:15.842 --> 00:01:21.316
+Then we estimate both hands with WiLoR, and anchor them to the body's wrists,
+
+22
+00:01:21.366 --> 00:01:24.473
+so every hand moves in a stable world frame.
+
+23
+00:01:24.523 --> 00:01:26.554
+Next come two strict filters.
+
+24
+00:01:26.604 --> 00:01:33.801
+One drops clips where the hands are hard to see; the other drops clips where the fingers barely move.
+
+25
+00:01:33.851 --> 00:01:36.169
+Of about 1,200 hours, 884 remain:
+
+26
+00:01:36.219 --> 00:01:38.680
+real, dexterous, two-handed motion.
+
+27
+00:01:39.930 --> 00:01:44.634
+Every clip is described at five levels of detail, from a two-word tag,
+
+28
+00:01:44.684 --> 00:01:50.068
+like "tying shoelaces", up to a full paragraph on finger curl, palm orientation,
+
+29
+00:01:50.118 --> 00:01:51.358
+timing, and intent.
+
+30
+00:01:51.408 --> 00:01:56.520
+Models can learn from short tags, rich descriptions, or anything in between.
+
+31
+00:01:57.770 --> 00:02:01.837
+Every clip also sits in a three-level action taxonomy:
+
+32
+00:02:01.887 --> 00:02:05.039
+category, sub-category, and atomic action.
+
+33
+00:02:05.089 --> 00:02:08.698
+Cooking, to stovetop cooking, to stirring a pot.
+
+34
+00:02:08.748 --> 00:02:11.824
+Shopping, to checkout, to handling money.
+
+35
+00:02:11.874 --> 00:02:15.025
+Gestures, to illustrating with both hands.
+
+36
+00:02:15.075 --> 00:02:17.465
+And repair, to removing a screw.
+
+37
+00:02:17.515 --> 00:02:23.640
+In total, 54 categories and over 2,000 sub-categories, all centered on the hands.
+
+38
+00:02:24.890 --> 00:02:27.099
+Compared with existing hand datasets,
+
+39
+00:02:27.149 --> 00:02:31.739
+RoMo Hands also covers a much wider range of wrist trajectories, hand poses,
+
+40
+00:02:31.789 --> 00:02:34.120
+and the language used to describe them.
+
+41
+00:02:35.370 --> 00:02:38.394
+To plug hands into modern motion generators,
+
+42
+00:02:38.444 --> 00:02:42.236
+we introduce a 393-dimensional bimanual representation.
+
+43
+00:02:42.286 --> 00:02:45.589
+It puts a synthetic root between the two wrists,
+
+44
+00:02:45.639 --> 00:02:51.177
+aligns the heading with the line joining them, and stacks positions, velocities,
+
+45
+00:02:51.227 --> 00:02:53.413
+and rotations for all 32 joints.
+
+46
+00:02:53.463 --> 00:02:54.251
+With MoMask,
+
+47
+00:02:54.301 --> 00:02:59.560
+it lifts top-one retrieval from about 40 percent with raw MANO to nearly 55.
+
+48
+00:03:00.810 --> 00:03:05.774
+We then benchmark diffusion, masked-token, and autoregressive generators,
+
+49
+00:03:05.824 --> 00:03:07.354
+and the rankings split.
+
+50
+00:03:07.404 --> 00:03:10.858
+MoMask tops text retrieval, but its fingers jitter,
+
+51
+00:03:10.908 --> 00:03:13.880
+with jerk over 18 times that of real motion.
+
+52
+00:03:13.930 --> 00:03:17.108
+Kimodo is nearly as accurate, and far smoother,
+
+53
+00:03:17.158 --> 00:03:20.200
+with the fewest collisions between the hands.
+
+54
+00:03:20.250 --> 00:03:20.955
+The lesson:
+
+55
+00:03:21.005 --> 00:03:24.596
+matching the text isn't the same as moving plausibly.
+
+56
+00:03:24.646 --> 00:03:27.000
+Hand models must be judged on both.
+
+57
+00:03:28.250 --> 00:03:31.414
+Because every clip carries a taxonomy label,
+
+58
+00:03:31.464 --> 00:03:34.775
+we can also score models category by category.
+
+59
+00:03:34.825 --> 00:03:36.455
+MDM wins communication.
+
+60
+00:03:36.505 --> 00:03:39.597
+MoMask takes performance arts and assembly.
+
+61
+00:03:39.647 --> 00:03:41.715
+Office depends on the metric.
+
+62
+00:03:41.765 --> 00:03:45.879
+Across the 40 categories with enough test clips to score,
+
+63
+00:03:45.929 --> 00:03:48.582
+MDM and MoMask split the wins evenly:
+
+64
+00:03:48.632 --> 00:03:50.920
+no single model wins everywhere.
+
+65
+00:03:52.170 --> 00:03:55.437
+RoMo Hands is part of the RoMo ecosystem.
+
+66
+00:03:55.487 --> 00:03:56.326
+Next to it:
+
+67
+00:03:56.376 --> 00:04:00.857
+RoMo Body, for full-body motion, and the Motion Toolbox,
+
+68
+00:04:00.907 --> 00:04:03.526
+for evaluation and visualization.
+
+69
+00:04:03.576 --> 00:04:05.791
+It all lives at romodataset.
+
+70
+00:04:05.841 --> 00:04:06.357
+github.
+
+71
+00:04:06.407 --> 00:04:06.600
+io.
+
+72
+00:04:07.850 --> 00:04:09.568
+RoMo Hands is available now:
+
+73
+00:04:09.618 --> 00:04:14.871
+the motion, the five-level captions, and the tools to evaluate and visualize it all.
+
+74
+00:04:14.921 --> 00:04:16.955
+So scan the code, start building,
+
+75
+00:04:17.005 --> 00:04:20.680
+and help give digital characters hands that move like ours.
