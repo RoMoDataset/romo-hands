@@ -6,6 +6,7 @@ const SVGNS = "http://www.w3.org/2000/svg";
 const HAND_JOINT_RE = /thumb|index|middle|ring|pinky|wrist/i;
 const TAXONOMY_URL = "static/data/taxonomy-romo-hands.json";
 
+// Aligned with the RoMo Hands website palette (site.css & charts.js: brand indigo, coral, rose-pink, mint)
 const CORNERS = [
   {
     id: "tl",
@@ -16,7 +17,9 @@ const CORNERS = [
     tag: "stirring pot with spoon",
     short: "Stirs a mixture in a clay pot with a wooden spoon.",
     src: "static/gallery/hand-teaser-cooking.glb",
-    color: "#ff5a36",
+    color: "#e86452",
+    meshColor: "#f27866",
+    softBg: "#fff1ee",
     cam: { dist: 0.68, lift: 0.68, yaw: 0.15 },
   },
   {
@@ -28,7 +31,9 @@ const CORNERS = [
     tag: "thumbs up then thumbs down",
     short: "Gestures a thumbs up, then switches to a thumbs down.",
     src: "static/gallery/hand-teaser-gestures.glb",
-    color: "#ff3370",
+    color: "#e04f80",
+    meshColor: "#f46c9a",
+    softBg: "#fdf0f5",
     cam: { dist: 0.72, lift: 0.34, yaw: -0.1 },
   },
   {
@@ -40,7 +45,9 @@ const CORNERS = [
     tag: "playing piano keys",
     short: "Sits at a piano and presses the keys with both hands.",
     src: "static/gallery/hand-example-02.glb",
-    color: "#6d7cff",
+    color: "#5560f0",
+    meshColor: "#6d7cff",
+    softBg: "#eef1ff",
     cam: { dist: 0.68, lift: 0.64, yaw: -0.15 },
   },
   {
@@ -52,7 +59,9 @@ const CORNERS = [
     tag: "counting change coins",
     short: "Counts coins on the counter with a precision grip.",
     src: "static/gallery/hand-example-03.glb",
-    color: "#14b8a6",
+    color: "#2ea388",
+    meshColor: "#43b89d",
+    softBg: "#e8f8f3",
     cam: { dist: 0.68, lift: 0.82, yaw: 0.1 },
   },
 ];
@@ -89,10 +98,11 @@ const svgEl = (tag, attrs = {}, parent = null) => {
   return el;
 };
 
+// Website-aligned periwinkle-indigo to slate-blue ramp (harmonizes with --brand-500 #6d7cff & --brand-700 #454ccf)
 const slicePalette = (i, n = 54) => {
-  const hue = lerp(248, 198, i / Math.max(1, n - 1));
-  const sat = 24 + (i % 3) * 7;
-  const light = 22 + (i % 2) * 6 + (i % 3) * 2;
+  const hue = lerp(236, 210, i / Math.max(1, n - 1));
+  const sat = 42 + (i % 3) * 8;
+  const light = 46 + (i % 2) * 6 + (i % 3) * 3;
   return `hsl(${hue.toFixed(1)} ${sat}% ${light}%)`;
 };
 
@@ -180,11 +190,11 @@ class CornerHandView {
     const model = cloneSkinned(gltf.scene);
     this.model = model;
 
-    const handColor = new THREE.Color(this.config.color);
+    const handColor = new THREE.Color(this.config.meshColor || this.config.color);
     this.handMat = new THREE.MeshPhongMaterial({
       color: handColor,
-      shininess: 48,
-      specular: 0x382834,
+      shininess: 36,
+      specular: 0x33333e,
       side: THREE.DoubleSide,
     });
 
@@ -225,18 +235,17 @@ class CornerHandView {
       this.baseYaw += Math.atan2(-forward.x, -forward.z);
     }
 
+    // Studio lighting matching gallery.js
     this.scene = new THREE.Scene();
     this.scene.add(model);
-    this.scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-    const key = new THREE.DirectionalLight(0xffffff, 1.85);
-    key.position.set(-3, 6, -5);
+    this.scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+    const key = new THREE.DirectionalLight(0xffffff, 1.75);
+    key.position.set(4, 8, -5);
     this.scene.add(key);
-    const fill = new THREE.DirectionalLight(0xdbe4ff, 0.65);
-    fill.position.set(5, 3, -2);
+    const fill = new THREE.DirectionalLight(0xdde5ff, 0.72);
+    fill.position.set(-5, 5, -4);
     this.scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xffffff, 0.9);
-    rim.position.set(0, 4, 6);
-    this.scene.add(rim);
+    this.scene.add(new THREE.HemisphereLight(0xffffff, 0xb9bfd0, 0.45));
 
     this.camera = new THREE.PerspectiveCamera(30, OFFSCREEN_W / OFFSCREEN_H, 0.01, 30);
     this.ready = true;
@@ -297,7 +306,7 @@ async function initHeroTeaser() {
         ${CORNERS.slice(0, 2)
           .map(
             (c, idx) => `
-          <article class="ht-card" data-corner="${idx}" style="--accent:${c.color}">
+          <article class="ht-card" data-corner="${idx}" style="--accent:${c.color};--accent-soft:${c.softBg}">
             <div class="ht-crumbs">
               <span class="ht-c0">${c.cat}</span>
               <i>›</i>
@@ -332,7 +341,7 @@ async function initHeroTeaser() {
         ${CORNERS.slice(2, 4)
           .map(
             (c, idx) => `
-          <article class="ht-card" data-corner="${idx + 2}" style="--accent:${c.color}">
+          <article class="ht-card" data-corner="${idx + 2}" style="--accent:${c.color};--accent-soft:${c.softBg}">
             <div class="ht-crumbs">
               <span class="ht-c0">${c.cat}</span>
               <i>›</i>
@@ -369,8 +378,8 @@ async function initHeroTeaser() {
 
   const defs = svgEl("defs", {}, svg);
   const radGrad = svgEl("radialGradient", { id: "ht-hub-grad", cx: "50%", cy: "50%", r: "50%" }, defs);
-  svgEl("stop", { offset: "0%", "stop-color": "#181a28" }, radGrad);
-  svgEl("stop", { offset: "100%", "stop-color": "#0d0f18" }, radGrad);
+  svgEl("stop", { offset: "0%", "stop-color": "#ffffff" }, radGrad);
+  svgEl("stop", { offset: "100%", "stop-color": "#f4f6fb" }, radGrad);
 
   const gSlices = svgEl("g", {}, svg);
   const gSpots = svgEl("g", {}, svg);
@@ -383,8 +392,8 @@ async function initHeroTeaser() {
       cy: CY,
       r: R0 - 5,
       fill: "url(#ht-hub-grad)",
-      stroke: "rgba(255, 255, 255, 0.14)",
-      "stroke-width": 1.8,
+      stroke: "#dfe3f0",
+      "stroke-width": 2,
     },
     gHub,
   );
@@ -433,7 +442,7 @@ async function initHeroTeaser() {
     gHub,
   );
 
-  function setDefaultHub(accentColor = "#ff3370") {
+  function setDefaultHub(accentColor = "#5560f0") {
     hubTopNum.textContent = "54";
     hubTopNum.setAttribute("fill", accentColor);
     hubTopLab.textContent = "CATEGORIES";
@@ -472,7 +481,7 @@ async function initHeroTeaser() {
   let rotating = false;
   let rotStart = -90 - slices[byName[CORNERS[0].cat]].baseMid;
   let rotDelta = 0;
-  let rotDuration = 0.42;
+  let rotDuration = 0.24;
   let rotProgress = 1;
   let currentRot = rotStart;
   let hoveredSlice = null;
@@ -490,7 +499,7 @@ async function initHeroTeaser() {
       "path",
       {
         fill: s.color,
-        stroke: "#0b0c12",
+        stroke: "#f6f7fb",
         "stroke-width": 1.4,
         class: "ht-slice",
       },
@@ -512,7 +521,7 @@ async function initHeroTeaser() {
       if (cornerBySliceIdx[i] !== undefined) {
         requestCorner(cornerBySliceIdx[i], 10000);
       }
-      const cColor = cornerBySliceIdx[i] !== undefined ? CORNERS[cornerBySliceIdx[i]].color : "#6d7cff";
+      const cColor = cornerBySliceIdx[i] !== undefined ? CORNERS[cornerBySliceIdx[i]].color : "#5560f0";
       hubTopNum.textContent = s.clips >= 10000 ? `${(s.clips / 1000).toFixed(1)}K` : s.clips.toLocaleString("en-US");
       hubTopNum.setAttribute("fill", cColor);
       hubTopLab.textContent = s.name.toUpperCase();
@@ -539,8 +548,8 @@ async function initHeroTeaser() {
       "path",
       {
         fill: c.color,
-        "fill-opacity": 0.46,
-        stroke: "#0b0c12",
+        "fill-opacity": 0.86,
+        stroke: "#f6f7fb",
         "stroke-width": 1.5,
       },
       g,
@@ -549,8 +558,8 @@ async function initHeroTeaser() {
       "path",
       {
         fill: c.color,
-        "fill-opacity": 0.26,
-        stroke: "#0b0c12",
+        "fill-opacity": 0.68,
+        stroke: "#f6f7fb",
         "stroke-width": 1.5,
       },
       g,
@@ -632,7 +641,6 @@ async function initHeroTeaser() {
     lastFrameTime = now;
     if (!visible) return;
 
-    // Auto-cycle every 3.0s when idle and fully expanded
     if (
       !rotating &&
       displayedCorner === activeCorner &&
@@ -644,10 +652,6 @@ async function initHeroTeaser() {
       lastCycleSwitch = now;
     }
 
-    // 3-phase choreography:
-    // Phase 1: Collapse Ring 3 & Ring 2 at 12 o'clock before rotating
-    // Phase 2: Rotate the compact 1-ring wheel to bring the next category to 12 o'clock
-    // Phase 3: Expand Ring 2 & Ring 3 outward at 12 o'clock
     if (!rotating) {
       if (displayedCorner !== activeCorner) {
         expandLevel = Math.max(0, expandLevel - dt * 5.6);
@@ -659,7 +663,6 @@ async function initHeroTeaser() {
         expandLevel = Math.min(1, expandLevel + dt * 4.4);
       }
     } else {
-      // If user picked a different corner mid-rotation (while rings are already collapsed), retarget smoothly
       if (displayedCorner !== activeCorner) {
         startRotationTo(activeCorner);
       }
@@ -689,8 +692,6 @@ async function initHeroTeaser() {
       return start;
     });
 
-    // While stationary (collapsing or expanding at 12 o'clock), lock currentRot so the
-    // active category stays pinned dead-center at -90 deg as it swells or shrinks.
     if (!rotating) {
       const dispMid = starts[dispSpot.idx] + spans[dispSpot.idx] / 2;
       currentRot = -90 - dispMid;
@@ -716,19 +717,19 @@ async function initHeroTeaser() {
       if (isTargetHighlight) {
         s.path.setAttribute("fill", CORNERS[displayedCorner].color);
       } else if (isHovered) {
-        s.path.setAttribute("fill", "#6d7cff");
+        s.path.setAttribute("fill", "#454ccf");
       } else {
         s.path.setAttribute("fill", s.color);
       }
       s.path.setAttribute(
         "opacity",
-        (0.72 + 0.28 * Math.max(isTargetHighlight ? 1 : 0, isHovered ? 1 : 0)).toFixed(3),
+        (0.84 + 0.16 * Math.max(isTargetHighlight ? 1 : 0, isHovered ? 1 : 0)).toFixed(3),
       );
 
       const showLabel = clamp((spans[i] - 6.0) / 1.8);
       const fc = Math.cos(rad(mid));
       const flipFade = clamp(Math.abs(fc + 0.32) / 0.18);
-      const labelOpacity = Math.max(showLabel * (0.86 - spinDim) * flipFade, isTargetHighlight ? 1 : 0);
+      const labelOpacity = Math.max(showLabel * (0.94 - spinDim) * flipFade, isTargetHighlight ? 1 : 0);
       s.label.setAttribute("opacity", labelOpacity.toFixed(3));
       if (labelOpacity > 0.02) {
         const [lx, ly] = polar(CX + ox, CY + oy, (R0 + rOuter) / 2 + 2, mid);
@@ -743,8 +744,6 @@ async function initHeroTeaser() {
       }
     });
 
-    // Update outer Ring 2 (Sub-Category) & Ring 3 (Atomic Action):
-    // They only appear for displayedCorner when !rotating and expandLevel > 0
     spotEls.forEach((sp, j) => {
       if (j !== displayedCorner || rotating || expandLevel <= 0.01) {
         sp.g.style.display = "none";
@@ -752,7 +751,6 @@ async function initHeroTeaser() {
       }
       sp.g.style.display = "";
 
-      // Ring 2 expands first (and collapses second); Ring 3 expands second (and collapses first)
       const g1 = easeOutCubic(clamp((expandLevel - 0.06) / 0.64));
       const g2 = easeOutCubic(clamp((expandLevel - 0.32) / 0.68));
 
