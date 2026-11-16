@@ -1,0 +1,225 @@
+{
+ "source": "RoMo taxonomy-mapper labels (datasets/RoMo/RoMo_body_Paper/dataset.csv) joined to the 541,929 RoMo Hands clip ids",
+ "clips_labeled": 534031,
+ "n_categories": 54,
+ "n_subcategories": 2050,
+ "n_atomic_actions": 156220,
+ "categories": [
+  {
+   "name": "Fitness",
+   "clips": 90034
+  },
+  {
+   "name": "Communication",
+   "clips": 65876
+  },
+  {
+   "name": "Gestures",
+   "clips": 55342
+  },
+  {
+   "name": "Sport",
+   "clips": 37082
+  },
+  {
+   "name": "Pet Care",
+   "clips": 24052
+  },
+  {
+   "name": "Education",
+   "clips": 22284
+  },
+  {
+   "name": "Dance",
+   "clips": 20007
+  },
+  {
+   "name": "Housework",
+   "clips": 16375
+  },
+  {
+   "name": "Daily Life",
+   "clips": 14225
+  },
+  {
+   "name": "Tool Use",
+   "clips": 13615
+  },
+  {
+   "name": "Gardening",
+   "clips": 12764
+  },
+  {
+   "name": "Outdoors",
+   "clips": 12528
+  },
+  {
+   "name": "Cooking",
+   "clips": 11185
+  },
+  {
+   "name": "Construction",
+   "clips": 10919
+  },
+  {
+   "name": "Performance Arts",
+   "clips": 10090
+  },
+  {
+   "name": "Marine",
+   "clips": 8269
+  },
+  {
+   "name": "Maintenance",
+   "clips": 7188
+  },
+  {
+   "name": "Games",
+   "clips": 7092
+  },
+  {
+   "name": "Crafting",
+   "clips": 6876
+  },
+  {
+   "name": "Transportation",
+   "clips": 6778
+  },
+  {
+   "name": "Music",
+   "clips": 6370
+  },
+  {
+   "name": "Repair",
+   "clips": 6030
+  },
+  {
+   "name": "Personal Care",
+   "clips": 5894
+  },
+  {
+   "name": "Fashion",
+   "clips": 5140
+  },
+  {
+   "name": "Driving",
+   "clips": 4587
+  },
+  {
+   "name": "Office",
+   "clips": 4521
+  },
+  {
+   "name": "Assembly",
+   "clips": 3980
+  },
+  {
+   "name": "Healthcare",
+   "clips": 3814
+  },
+  {
+   "name": "Rehabilitation",
+   "clips": 3436
+  },
+  {
+   "name": "Housekeeping",
+   "clips": 3291
+  },
+  {
+   "name": "Social Interaction",
+   "clips": 3224
+  },
+  {
+   "name": "Eating",
+   "clips": 3154
+  },
+  {
+   "name": "Photography",
+   "clips": 2738
+  },
+  {
+   "name": "Agriculture",
+   "clips": 2575
+  },
+  {
+   "name": "Child Care",
+   "clips": 2475
+  },
+  {
+   "name": "Shopping",
+   "clips": 2193
+  },
+  {
+   "name": "Aviation",
+   "clips": 2143
+  },
+  {
+   "name": "Parenting",
+   "clips": 2070
+  },
+  {
+   "name": "Emotes",
+   "clips": 2016
+  },
+  {
+   "name": "Art",
+   "clips": 1377
+  },
+  {
+   "name": "Animals",
+   "clips": 1279
+  },
+  {
+   "name": "Military",
+   "clips": 1219
+  },
+  {
+   "name": "Law Enforcement",
+   "clips": 1209
+  },
+  {
+   "name": "Religious Rituals",
+   "clips": 1149
+  },
+  {
+   "name": "Survival Skills",
+   "clips": 1018
+  },
+  {
+   "name": "Emergency Response",
+   "clips": 1016
+  },
+  {
+   "name": "Testing",
+   "clips": 997
+  },
+  {
+   "name": "Video Games",
+   "clips": 681
+  },
+  {
+   "name": "Science",
+   "clips": 643
+  },
+  {
+   "name": "Laboratory",
+   "clips": 499
+  },
+  {
+   "name": "Safety Drills",
+   "clips": 463
+  },
+  {
+   "name": "Culture",
+   "clips": 182
+  },
+  {
+   "name": "Sign Language",
+   "clips": 63
+  },
+  {
+   "name": "Moderation",
+   "clips": 4
+  }
+ ]
+}

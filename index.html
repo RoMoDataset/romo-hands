@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/site.css?v=18">
+  <link rel="stylesheet" href="static/css/site.css?v=20">
 </head>
 
 <body>
@@ -111,8 +111,11 @@
         </div>
       </div>
 
-      <div class="teaser-frame reveal">
-        <img src="static/teaser.png" alt="RoMo Hands dataset and benchmark overview">
+      <div class="teaser-frame teaser-interactive-frame reveal">
+        <div id="hero-interactive-teaser" class="hero-interactive-teaser" aria-label="Interactive 3-level action taxonomy wheel and 4 live 3D bimanual hand animations"></div>
+        <noscript>
+          <img src="static/teaser.png" alt="RoMo Hands dataset and benchmark overview">
+        </noscript>
       </div>
     </section>
 
@@ -545,6 +548,7 @@
     }
   }
   </script>
+  <script type="module" src="static/js/hero-teaser.js?v=1"></script>
   <script type="module" src="static/js/gallery.js?v=9"></script>
 </body>
 </html>
