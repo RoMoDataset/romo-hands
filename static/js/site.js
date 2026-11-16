@@ -211,3 +211,15 @@ document.querySelectorAll("table[data-sortable-lb]").forEach((table) => {
   });
 });
 
+document.querySelectorAll("[data-email-user][data-email-domain]").forEach((link) => {
+  const addr = `${link.dataset.emailUser}@${link.dataset.emailDomain}`;
+  const subject = link.dataset.emailSubject
+    ? `?subject=${encodeURIComponent(link.dataset.emailSubject)}&body=${link.dataset.emailBody || ""}`
+    : "";
+  link.href = `mailto:${addr}${subject}`;
+  if (link.textContent.includes("[at]")) {
+    link.textContent = addr;
+  }
+});
+
+
