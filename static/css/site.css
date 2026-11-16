@@ -405,7 +405,7 @@ button,
 
 .ht-stage {
   display: grid;
-  grid-template-columns: minmax(240px, 1.24fr) minmax(220px, .92fr) minmax(240px, 1.24fr);
+  grid-template-columns: minmax(220px, 1.04fr) minmax(316px, 1.18fr) minmax(220px, 1.04fr);
   gap: 14px;
   align-items: stretch;
 }
@@ -415,6 +415,7 @@ button,
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
+  min-width: 0;
 }
 
 .ht-card {
@@ -429,6 +430,7 @@ button,
   border: 1.5px solid rgba(255, 255, 255, .09);
   box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
   cursor: pointer;
+  min-width: 0;
   transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease, background .22s ease;
 }
 
@@ -490,7 +492,7 @@ button,
   flex: 1;
   position: relative;
   width: 100%;
-  min-height: 156px;
+  min-height: 136px;
   aspect-ratio: 16 / 10;
   border-radius: 10px;
   background:
@@ -566,11 +568,12 @@ button,
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  min-width: 0;
 }
 
 .ht-wheel-svg {
   width: 100%;
-  max-width: 310px;
+  max-width: 335px;
   height: auto;
   overflow: visible;
   display: block;
@@ -638,19 +641,21 @@ button,
 }
 
 .ht-wheel-footer {
-  margin-top: 14px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   text-align: center;
+  width: 100%;
 }
 
 .ht-ring-line {
   color: #d6dceb;
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 650;
   line-height: 1.35;
+  white-space: nowrap;
 }
 
 .ht-ring-line b {
