@@ -2006,9 +2006,9 @@ button,
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 14px;
-  padding: 20px 24px 16px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--line);
   background: #fafbfe;
 }
@@ -2263,36 +2263,20 @@ button,
 }
 
 .leaderboard-submit-cta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px 32px;
-  padding: 24px 28px;
-  background: linear-gradient(135deg, #fbfcff 0%, var(--brand-50) 100%);
-  border-top: 1px solid var(--brand-100);
-}
-
-.lb-submit-copy {
-  flex: 1 1 520px;
-}
-
-.lb-submit-copy .eyebrow {
-  margin: 0 0 4px;
-}
-
-.lb-submit-copy h3 {
-  margin: 0 0 6px;
-  color: var(--ink);
-  font-size: 19px;
-  letter-spacing: -.02em;
+  padding: 16px 22px;
+  background: #fafbfe;
+  border-top: 1px solid var(--line);
 }
 
 .lb-submit-copy p {
   margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.lb-submit-copy strong {
   color: var(--ink-soft);
-  font-size: 14px;
-  line-height: 1.55;
 }
 
 .lb-submit-copy code {

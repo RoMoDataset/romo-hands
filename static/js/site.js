@@ -156,24 +156,7 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
   });
 });
 
-// Interactive Leaderboard tabs & column sorting
-const lbTabs = [...document.querySelectorAll("[data-lb-tab]")];
-const lbPanels = [...document.querySelectorAll("[data-lb-panel]")];
-
-lbTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const target = tab.dataset.lbTab;
-    lbTabs.forEach((t) => {
-      const active = t.dataset.lbTab === target;
-      t.classList.toggle("active", active);
-      t.setAttribute("aria-selected", String(active));
-    });
-    lbPanels.forEach((panel) => {
-      panel.hidden = panel.dataset.lbPanel !== target;
-    });
-  });
-});
-
+// Interactive Leaderboard column sorting
 document.querySelectorAll("table[data-sortable-lb]").forEach((table) => {
   const headers = [...table.querySelectorAll("thead th[data-sort-col]")];
   const tbody = table.querySelector("tbody");
@@ -209,17 +192,6 @@ document.querySelectorAll("table[data-sortable-lb]").forEach((table) => {
       [...refRows, ...modelRows].forEach((r) => tbody.appendChild(r));
     });
   });
-});
-
-document.querySelectorAll("[data-email-user][data-email-domain]").forEach((link) => {
-  const addr = `${link.dataset.emailUser}@${link.dataset.emailDomain}`;
-  const subject = link.dataset.emailSubject
-    ? `?subject=${encodeURIComponent(link.dataset.emailSubject)}&body=${link.dataset.emailBody || ""}`
-    : "";
-  link.href = `mailto:${addr}${subject}`;
-  if (link.textContent.includes("[at]")) {
-    link.textContent = addr;
-  }
 });
 
 
