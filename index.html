@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/site.css?v=27">
+  <link rel="stylesheet" href="static/css/site.css?v=31">
 </head>
 
 <body>
@@ -39,6 +39,7 @@
         <a href="#gallery">Gallery</a>
         <a href="#abstract">Overview</a>
         <a href="#explore">Explore</a>
+        <a href="#leaderboard">Leaderboard</a>
         <a href="#poster">Poster</a>
         <a href="https://davidzhang73.github.io/romo-website/" target="_blank" rel="noopener">RoMo ↗</a>
       </div>
@@ -92,6 +93,10 @@
           <a class="button button-light" href="#video">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="M10 9l5 3-5 3z"/></svg>
             Video
+          </a>
+          <a class="button button-light" href="#leaderboard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v6a5 5 0 0 1-10 0V4z"/><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/></svg>
+            Leaderboard
           </a>
           <a class="button button-light" href="#poster">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M15 9v11"/></svg>
@@ -485,6 +490,393 @@
       </div>
     </section>
 
+    <section class="section band" id="leaderboard">
+      <div class="shell">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Community Leaderboard</p>
+          <h2>Text-to-Hand Motion Benchmark Leaderboard</h2>
+          <p>
+            Evaluated on the 17,348 RoMo Hands benchmark test clips (40–196 frames, 20 replications) under the shared 393-D representation,
+            frozen TMR evaluator, and 3D MANO forward-kinematics physical suite. Click any metric column header to re-sort.
+          </p>
+        </div>
+
+        <div class="leaderboard-card reveal">
+          <div class="leaderboard-head">
+            <div class="leaderboard-tabs" role="tablist" aria-label="Leaderboard suite">
+              <button class="chart-toggle active" type="button" role="tab" aria-selected="true" data-lb-tab="main">
+                Main Benchmark (Semantic + Physical)
+              </button>
+              <button class="chart-toggle" type="button" role="tab" aria-selected="false" data-lb-tab="semantic">
+                Full Semantic (±95% CI)
+              </button>
+              <button class="chart-toggle" type="button" role="tab" aria-selected="false" data-lb-tab="physical">
+                Physical Diagnostics (±95% CI)
+              </button>
+              <button class="chart-toggle" type="button" role="tab" aria-selected="false" data-lb-tab="disjoint">
+                Video-Disjoint Split
+              </button>
+            </div>
+            <div class="leaderboard-legend">
+              <span class="lb-badge-key best"><b>1st</b> Best</span>
+              <span class="lb-badge-key second"><u>2nd</u> Runner-up</span>
+              <span class="lb-badge-key dir">↑ higher · ↓ lower · → closer to GT</span>
+            </div>
+          </div>
+
+          <!-- TAB 1: MAIN BENCHMARK (Table 2) -->
+          <div class="lb-table-wrap" data-lb-panel="main">
+            <table class="lb-table" data-sortable-lb>
+              <thead>
+                <tr class="lb-group-row">
+                  <th colspan="2" class="lb-group-empty">Generator</th>
+                  <th colspan="6" class="lb-group-sem">Semantic · 201-D Essential TMR</th>
+                  <th colspan="5" class="lb-group-phys">Physical · 3D MANO Forward Kinematics</th>
+                </tr>
+                <tr>
+                  <th class="lb-col-method">Method</th>
+                  <th class="lb-col-type">Paradigm</th>
+                  <th data-sort-col="2" data-sort-dir="desc" class="is-sorted desc" title="R-Precision Top-1 (higher is better)">R@1 ↑</th>
+                  <th data-sort-col="3" data-sort-dir="desc" title="R-Precision Top-3 (higher is better)">R@3 ↑</th>
+                  <th data-sort-col="4" data-sort-dir="desc" title="R-Precision Top-10 (higher is better)">R@10 ↑</th>
+                  <th data-sort-col="5" data-sort-dir="asc" title="Multi-Modal Distance (lower is better)">MM-D ↓</th>
+                  <th data-sort-col="6" data-sort-dir="asc" title="Fréchet Inception Distance (lower is better)">FID ↓</th>
+                  <th data-sort-col="7" data-sort-dir="target" data-sort-target="120.41" title="Diversity (closer to GT 120.41 is better)">Div. →</th>
+                  <th data-sort-col="8" data-sort-dir="target" data-sort-target="8.38" title="Mean Joint Acceleration in m/s² (closer to GT 8.38 is better)">Accel →<br><small>m/s²</small></th>
+                  <th data-sort-col="9" data-sort-dir="target" data-sort-target="14.3" title="Intra-hand Jerk in m/s³ (closer to GT 14.3 is better)">Jerk →<br><small>m/s³</small></th>
+                  <th data-sort-col="10" data-sort-dir="asc" title="Inter-hand Penetration Frame Ratio (lower is better)">Inter ↓<br><small>%</small></th>
+                  <th data-sort-col="11" data-sort-dir="asc" title="Self-hand Penetration Max Depth in mm (lower is better)">Self ↓<br><small>mm</small></th>
+                  <th data-sort-col="12" data-sort-dir="asc" title="High-Frequency Power Ratio (lower is better)">HF ↓<br><small>ratio</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>Ground Truth</em> <span class="lb-ref-tag">Ref</span></td>
+                  <td><span class="lb-paradigm ref">In-the-Wild</span></td>
+                  <td><em>63.77%</em></td>
+                  <td><em>82.59%</em></td>
+                  <td><em>96.13%</em></td>
+                  <td><em>0.864</em></td>
+                  <td><em>0.000</em></td>
+                  <td><em>120.41</em></td>
+                  <td><em>8.38</em></td>
+                  <td><em>14.3</em></td>
+                  <td><em>0.64%</em></td>
+                  <td><em>0.002</em></td>
+                  <td><em>0.0081</em></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell">
+                    <strong>MoMask</strong>
+                    <a href="https://arxiv.org/abs/2312.00063" target="_blank" rel="noopener" class="lb-cite">CVPR ’24 ↗</a>
+                  </td>
+                  <td><span class="lb-paradigm rvq">Masked RVQ</span></td>
+                  <td data-val="54.00" class="lb-best">54.00%</td>
+                  <td data-val="78.62" class="lb-best">78.62%</td>
+                  <td data-val="93.88" class="lb-best">93.88%</td>
+                  <td data-val="0.945" class="lb-second">0.945</td>
+                  <td data-val="0.129" class="lb-second">0.129</td>
+                  <td data-val="115.27" class="lb-second">115.27</td>
+                  <td data-val="4.99">4.99</td>
+                  <td data-val="265.2">265.2</td>
+                  <td data-val="1.58" class="lb-second">1.58%</td>
+                  <td data-val="0.017" class="lb-second">0.017</td>
+                  <td data-val="0.0153">0.0153</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell">
+                    <strong>Kimodo M</strong>
+                    <a href="https://arxiv.org/abs/2503.15741" target="_blank" rel="noopener" class="lb-cite">2025 ↗</a>
+                  </td>
+                  <td><span class="lb-paradigm diff">Diffusion</span></td>
+                  <td data-val="53.82" class="lb-second">53.82%</td>
+                  <td data-val="76.99" class="lb-second">76.99%</td>
+                  <td data-val="93.76" class="lb-second">93.76%</td>
+                  <td data-val="0.942" class="lb-best">0.942</td>
+                  <td data-val="0.087" class="lb-best">0.087</td>
+                  <td data-val="116.34" class="lb-best">116.34</td>
+                  <td data-val="6.03" class="lb-second">6.03</td>
+                  <td data-val="22.9" class="lb-best">22.9</td>
+                  <td data-val="1.06" class="lb-best">1.06%</td>
+                  <td data-val="0.066">0.066</td>
+                  <td data-val="0.0077" class="lb-best">0.0077</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell">
+                    <strong>MDM (DiP)</strong>
+                    <a href="https://arxiv.org/abs/2209.14916" target="_blank" rel="noopener" class="lb-cite">ICLR ’23 ↗</a>
+                  </td>
+                  <td><span class="lb-paradigm diff">Prefix Diff.</span></td>
+                  <td data-val="42.28">42.28%</td>
+                  <td data-val="66.15">66.15%</td>
+                  <td data-val="88.92">88.92%</td>
+                  <td data-val="1.031">1.031</td>
+                  <td data-val="0.144">0.144</td>
+                  <td data-val="113.44">113.44</td>
+                  <td data-val="7.92" class="lb-best">7.92</td>
+                  <td data-val="71.2" class="lb-second">71.2</td>
+                  <td data-val="2.19">2.19%</td>
+                  <td data-val="0.382">0.382</td>
+                  <td data-val="0.0132">0.0132</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell">
+                    <strong>MotionMillion</strong>
+                    <a href="https://arxiv.org/abs/2503.07465" target="_blank" rel="noopener" class="lb-cite">2025 ↗</a>
+                  </td>
+                  <td><span class="lb-paradigm ar">AR (FSQ)</span></td>
+                  <td data-val="31.26">31.26%</td>
+                  <td data-val="51.55">51.55%</td>
+                  <td data-val="82.37">82.37%</td>
+                  <td data-val="1.105">1.105</td>
+                  <td data-val="0.314">0.314</td>
+                  <td data-val="109.14">109.14</td>
+                  <td data-val="5.77">5.77</td>
+                  <td data-val="76.1">76.1</td>
+                  <td data-val="1.82">1.82%</td>
+                  <td data-val="0.000" class="lb-best">0.000</td>
+                  <td data-val="0.0082" class="lb-second">0.0082</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TAB 2: FULL SEMANTIC SCORECARD (Table 6) -->
+          <div class="lb-table-wrap" data-lb-panel="semantic" hidden>
+            <table class="lb-table" data-sortable-lb>
+              <thead>
+                <tr>
+                  <th class="lb-col-method">Method</th>
+                  <th class="lb-col-type">Paradigm</th>
+                  <th data-sort-col="2" data-sort-dir="desc" class="is-sorted desc">R@1 ↑</th>
+                  <th data-sort-col="3" data-sort-dir="desc">R@2 ↑</th>
+                  <th data-sort-col="4" data-sort-dir="desc">R@3 ↑</th>
+                  <th data-sort-col="5" data-sort-dir="desc">R@5 ↑</th>
+                  <th data-sort-col="6" data-sort-dir="desc">R@10 ↑</th>
+                  <th data-sort-col="7" data-sort-dir="asc">MM-Dist (raw) ↓</th>
+                  <th data-sort-col="8" data-sort-dir="asc">FID ↓</th>
+                  <th data-sort-col="9" data-sort-dir="target" data-sort-target="120.41">Diversity →</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>Ground Truth</em> <span class="lb-ref-tag">Reference</span></td>
+                  <td><span class="lb-paradigm ref">In-the-Wild Data</span></td>
+                  <td><em>63.77 ± 0.34</em></td>
+                  <td><em>76.25 ± 0.31</em></td>
+                  <td><em>82.59 ± 0.29</em></td>
+                  <td><em>89.49 ± 0.23</em></td>
+                  <td><em>96.13 ± 0.11</em></td>
+                  <td><em>69.04 ± 0.02</em></td>
+                  <td><em>0.000 ± 0.000</em></td>
+                  <td><em>120.41 ± 0.41</em></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MoMask</strong></td>
+                  <td><span class="lb-paradigm rvq">Masked RVQ</span></td>
+                  <td data-val="54.00" class="lb-best">54.00 ± 0.41</td>
+                  <td data-val="70.68" class="lb-best">70.68 ± 0.36</td>
+                  <td data-val="78.62" class="lb-best">78.62 ± 0.24</td>
+                  <td data-val="86.07" class="lb-best">86.07 ± 0.24</td>
+                  <td data-val="93.88" class="lb-best">93.88 ± 0.14</td>
+                  <td data-val="74.52" class="lb-second">74.52 ± 0.02</td>
+                  <td data-val="0.129" class="lb-second">0.129 ± 0.000</td>
+                  <td data-val="115.27" class="lb-second">115.27 ± 0.34</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>Kimodo M</strong></td>
+                  <td><span class="lb-paradigm diff">Diffusion</span></td>
+                  <td data-val="53.82" class="lb-second">53.82 ± 0.37</td>
+                  <td data-val="69.04" class="lb-second">69.04 ± 0.29</td>
+                  <td data-val="76.99" class="lb-second">76.99 ± 0.28</td>
+                  <td data-val="85.56" class="lb-second">85.56 ± 0.16</td>
+                  <td data-val="93.76" class="lb-second">93.76 ± 0.13</td>
+                  <td data-val="73.67" class="lb-best">73.67 ± 0.02</td>
+                  <td data-val="0.087" class="lb-best">0.087 ± 0.000</td>
+                  <td data-val="116.34" class="lb-best">116.34 ± 0.34</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MDM (DiP)</strong></td>
+                  <td><span class="lb-paradigm diff">Prefix Diff.</span></td>
+                  <td data-val="42.28">42.28 ± 0.21</td>
+                  <td data-val="57.30">57.30 ± 0.42</td>
+                  <td data-val="66.15">66.15 ± 0.43</td>
+                  <td data-val="76.95">76.95 ± 0.28</td>
+                  <td data-val="88.92">88.92 ± 0.15</td>
+                  <td data-val="80.19">80.19 ± 0.02</td>
+                  <td data-val="0.144">0.144 ± 0.000</td>
+                  <td data-val="113.44">113.44 ± 0.40</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MotionMillion</strong></td>
+                  <td><span class="lb-paradigm ar">AR (FSQ)</span></td>
+                  <td data-val="31.26">31.26 ± 0.46</td>
+                  <td data-val="43.97">43.97 ± 0.46</td>
+                  <td data-val="51.55">51.55 ± 0.43</td>
+                  <td data-val="63.40">63.40 ± 0.42</td>
+                  <td data-val="82.37">82.37 ± 0.46</td>
+                  <td data-val="87.10">87.10 ± 0.00</td>
+                  <td data-val="0.314">0.314 ± 0.000</td>
+                  <td data-val="109.14">109.14 ± 0.49</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TAB 3: SUPPLEMENTARY PHYSICAL DIAGNOSTICS (Table 5) -->
+          <div class="lb-table-wrap" data-lb-panel="physical" hidden>
+            <table class="lb-table" data-sortable-lb>
+              <thead>
+                <tr>
+                  <th class="lb-col-method">Method</th>
+                  <th class="lb-col-type">Paradigm</th>
+                  <th data-sort-col="2" data-sort-dir="asc" class="is-sorted asc">Inter-hand Pen Depth ↓ <small>mean mm</small></th>
+                  <th data-sort-col="3" data-sort-dir="asc">Self-hand Pen Ratio ↓ <small>% frames &gt;10mm</small></th>
+                  <th data-sort-col="4" data-sort-dir="asc">Bone-Length Viol. ↓ <small>% frames</small></th>
+                  <th data-sort-col="5" data-sort-dir="target" data-sort-target="0.1120">Finger Flexion → <small>mean m (target 0.1120)</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>RoMo Hands GT</em> <span class="lb-ref-tag">Reference</span></td>
+                  <td><span class="lb-paradigm ref">In-the-Wild Data</span></td>
+                  <td><em>0.081 ± 0.052</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.1120 ± 0.0010</em></td>
+                </tr>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>GRAB GT</em> <span class="lb-ref-tag">Studio Ref</span></td>
+                  <td><span class="lb-paradigm ref">Studio Optical Mocap</span></td>
+                  <td><em>0.000 ± 0.000</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.1217 ± 0.0007</em></td>
+                </tr>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>GigaHands GT</em> <span class="lb-ref-tag">Multi-View Ref</span></td>
+                  <td><span class="lb-paradigm ref">Multi-Camera Studio</span></td>
+                  <td><em>0.000 ± 0.000</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.00 ± 0.00%</em></td>
+                  <td><em>0.1251 ± 0.0005</em></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>Kimodo M</strong></td>
+                  <td><span class="lb-paradigm diff">Diffusion</span></td>
+                  <td data-val="0.150" class="lb-best">0.150 ± 0.093</td>
+                  <td data-val="0.00" class="lb-best">0.00 ± 0.00%</td>
+                  <td data-val="1.54" class="lb-second">1.54 ± 0.19%</td>
+                  <td data-val="0.1127" class="lb-best">0.1127 ± 0.0014</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MoMask</strong></td>
+                  <td><span class="lb-paradigm rvq">Masked RVQ</span></td>
+                  <td data-val="0.190" class="lb-second">0.190 ± 0.170</td>
+                  <td data-val="0.07">0.07 ± 0.14%</td>
+                  <td data-val="6.34">6.34 ± 0.56%</td>
+                  <td data-val="0.1136" class="lb-second">0.1136 ± 0.0016</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MotionMillion</strong></td>
+                  <td><span class="lb-paradigm ar">AR (FSQ)</span></td>
+                  <td data-val="0.200">0.200 ± 0.114</td>
+                  <td data-val="0.00" class="lb-best">0.00 ± 0.00%</td>
+                  <td data-val="0.08" class="lb-best">0.08 ± 0.02%</td>
+                  <td data-val="0.0906">0.0906 ± 0.0012</td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MDM (DiP)</strong></td>
+                  <td><span class="lb-paradigm diff">Prefix Diff.</span></td>
+                  <td data-val="0.243">0.243 ± 0.112</td>
+                  <td data-val="1.05">1.05 ± 0.84%</td>
+                  <td data-val="1.93">1.93 ± 0.28%</td>
+                  <td data-val="0.1035">0.1035 ± 0.0014</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- TAB 4: VIDEO-DISJOINT AUDIT (Table 7) -->
+          <div class="lb-table-wrap" data-lb-panel="disjoint" hidden>
+            <table class="lb-table" data-sortable-lb>
+              <thead>
+                <tr>
+                  <th class="lb-col-method">Method</th>
+                  <th class="lb-col-type">Paradigm</th>
+                  <th data-sort-col="2" data-sort-dir="desc" class="is-sorted desc">R@1 ↑ <small>(Δ vs segment split)</small></th>
+                  <th data-sort-col="3" data-sort-dir="asc">FID ↓ <small>(Δ vs segment split)</small></th>
+                  <th data-sort-col="4" data-sort-dir="asc">MM-Dist ↓ <small>(Δ vs segment split)</small></th>
+                  <th data-sort-col="5" data-sort-dir="target" data-sort-target="119.1">Diversity → <small>(target 119.1)</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="lb-ref-row" data-ref-row="true">
+                  <td class="lb-method-cell"><em>Ground Truth</em> <span class="lb-ref-tag">7,679 Video-Disjoint Clips</span></td>
+                  <td><span class="lb-paradigm ref">In-the-Wild Data</span></td>
+                  <td><em>59.7% <small>(-4.1)</small></em></td>
+                  <td><em>0.000 <small>(+0.000)</small></em></td>
+                  <td><em>0.880 <small>(+0.016)</small></em></td>
+                  <td><em>119.1 <small>(-1.3)</small></em></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MoMask</strong></td>
+                  <td><span class="lb-paradigm rvq">Masked RVQ</span></td>
+                  <td data-val="54.9" class="lb-best">54.9% <small>(+0.9)</small></td>
+                  <td data-val="0.158" class="lb-second">0.158 <small>(+0.029)</small></td>
+                  <td data-val="0.922" class="lb-second">0.922 <small>(-0.023)</small></td>
+                  <td data-val="113.9" class="lb-second">113.9 <small>(-1.4)</small></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>Kimodo M</strong></td>
+                  <td><span class="lb-paradigm diff">Diffusion</span></td>
+                  <td data-val="54.5" class="lb-second">54.5% <small>(+0.7)</small></td>
+                  <td data-val="0.116" class="lb-best">0.116 <small>(+0.029)</small></td>
+                  <td data-val="0.920" class="lb-best">0.920 <small>(-0.022)</small></td>
+                  <td data-val="114.2" class="lb-best">114.2 <small>(-2.1)</small></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MDM (DiP)</strong></td>
+                  <td><span class="lb-paradigm diff">Prefix Diff.</span></td>
+                  <td data-val="40.5">40.5% <small>(-1.8)</small></td>
+                  <td data-val="0.171">0.171 <small>(+0.027)</small></td>
+                  <td data-val="1.030">1.030 <small>(-0.001)</small></td>
+                  <td data-val="114.0">114.0 <small>(+0.6)</small></td>
+                </tr>
+                <tr>
+                  <td class="lb-method-cell"><strong>MotionMillion</strong></td>
+                  <td><span class="lb-paradigm ar">AR (FSQ)</span></td>
+                  <td data-val="28.7">28.7% <small>(-2.6)</small></td>
+                  <td data-val="0.322">0.322 <small>(+0.008)</small></td>
+                  <td data-val="1.130">1.130 <small>(+0.025)</small></td>
+                  <td data-val="107.7">107.7 <small>(-1.4)</small></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="leaderboard-submit-cta">
+            <div class="lb-submit-copy">
+              <p class="eyebrow">Submit your method</p>
+              <h3>Want to add your model’s results to the RoMo Hands Leaderboard?</h3>
+              <p>
+                Evaluate your generator on the 17,348 benchmark test clips (<code>splits/benchmark_test.txt</code>) using the official
+                TMR evaluator and <a href="https://github.com/RoMoDataset/motion-toolbox" target="_blank" rel="noopener">Motion Toolbox</a>
+                physical suite, then email <strong>Yizhak Ben-Shabat</strong> (<a href="mailto:sitzikbs@gmail.com">sitzikbs@gmail.com</a>)
+                with your method name, paper/code link, and metric scores.
+              </p>
+            </div>
+            <div class="lb-submit-action">
+              <a class="button button-dark" href="mailto:sitzikbs@gmail.com?subject=RoMo%20Hands%20Leaderboard%20Submission&amp;body=Method%20Name%3A%0AParadigm%20(e.g.%20Diffusion%2C%20Masked%20RVQ%2C%20Autoregressive)%3A%0APaper%20%2F%20Project%20URL%3A%0ACode%20Repository%20URL%3A%0A%0ASemantic%20Metrics%20(R%401%2C%20R%403%2C%20R%4010%2C%20MM-Dist%2C%20FID%2C%20Diversity)%3A%0A%0APhysical%20Metrics%20(Accel%2C%20Intra-Jerk%2C%20Inter-Pen%2C%20Self-Pen%2C%20HF%20Power)%3A%0A">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                Submit via Email
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section shell" id="poster">
       <div class="section-heading reveal">
         <p class="eyebrow">Poster</p>
@@ -538,7 +930,7 @@
 
   <button class="to-top" id="to-top" aria-label="Scroll to top">↑</button>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-  <script src="static/js/site.js?v=8"></script>
+  <script src="static/js/site.js?v=9"></script>
   <script src="static/js/charts.js?v=8"></script>
   <script type="importmap">
   {

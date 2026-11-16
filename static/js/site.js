@@ -155,3 +155,59 @@ document.querySelectorAll("[data-copy-target]").forEach((button) => {
     }, 1600);
   });
 });
+
+// Interactive Leaderboard tabs & column sorting
+const lbTabs = [...document.querySelectorAll("[data-lb-tab]")];
+const lbPanels = [...document.querySelectorAll("[data-lb-panel]")];
+
+lbTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const target = tab.dataset.lbTab;
+    lbTabs.forEach((t) => {
+      const active = t.dataset.lbTab === target;
+      t.classList.toggle("active", active);
+      t.setAttribute("aria-selected", String(active));
+    });
+    lbPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.lbPanel !== target;
+    });
+  });
+});
+
+document.querySelectorAll("table[data-sortable-lb]").forEach((table) => {
+  const headers = [...table.querySelectorAll("thead th[data-sort-col]")];
+  const tbody = table.querySelector("tbody");
+  if (!tbody) return;
+
+  headers.forEach((th) => {
+    th.addEventListener("click", () => {
+      const colIdx = Number(th.dataset.sortCol);
+      const sortMode = th.dataset.sortDir || "desc";
+      const targetVal = Number(th.dataset.sortTarget || 0);
+
+      headers.forEach((h) => h.classList.remove("is-sorted"));
+      th.classList.add("is-sorted");
+
+      const allRows = [...tbody.querySelectorAll("tr")];
+      const refRows = allRows.filter((r) => r.dataset.refRow === "true");
+      const modelRows = allRows.filter((r) => r.dataset.refRow !== "true");
+
+      modelRows.sort((a, b) => {
+        const cellA = a.children[colIdx];
+        const cellB = b.children[colIdx];
+        const valA = Number(cellA?.dataset.val ?? NaN);
+        const valB = Number(cellB?.dataset.val ?? NaN);
+        if (Number.isNaN(valA) || Number.isNaN(valB)) return 0;
+
+        if (sortMode === "asc") return valA - valB;
+        if (sortMode === "target") {
+          return Math.abs(valA - targetVal) - Math.abs(valB - targetVal);
+        }
+        return valB - valA;
+      });
+
+      [...refRows, ...modelRows].forEach((r) => tbody.appendChild(r));
+    });
+  });
+});
+
