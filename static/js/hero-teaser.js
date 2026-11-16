@@ -222,7 +222,6 @@ class CornerHandView {
     model.position.z -= this.handFrame.center.z;
     this.handFrame.center.set(0, this.handFrame.center.y, 0);
 
-    // Compute front-facing yaw from hips or wrists
     this.baseYaw = this.config.cam.yaw ?? 0;
     if (this.bones.left_hip && this.bones.right_hip) {
       this.mixer.setTime(this.clip.duration * 0.5);
@@ -300,7 +299,7 @@ async function initHeroTeaser() {
   const categories = taxData.categories;
   const totalClips = categories.reduce((acc, c) => acc + c.clips, 0);
 
-  // Build DOM structure inside container
+  // Build DOM structure inside container — hub is rendered directly inside the SVG so it is always a true mathematical circle
   container.innerHTML = `
     <div class="ht-stage">
       <div class="ht-col ht-col-left">
@@ -330,13 +329,7 @@ async function initHeroTeaser() {
       </div>
 
       <div class="ht-center">
-        <svg class="ht-wheel-svg" viewBox="0 0 620 620" aria-label="RoMo Hands 54-category action taxonomy wheel"></svg>
-        <div class="ht-wheel-hub">
-          <span class="ht-hub-kicker" id="ht-hub-kicker">3-Level Taxonomy</span>
-          <strong class="ht-hub-title" id="ht-hub-title">54 Categories</strong>
-          <span class="ht-hub-sub" id="ht-hub-sub">2,050 Sub-Categories</span>
-          <span class="ht-hub-pill" id="ht-hub-pill">541,929 Bimanual Clips</span>
-        </div>
+        <svg class="ht-wheel-svg" viewBox="0 0 640 640" aria-label="RoMo Hands 54-category action taxonomy wheel"></svg>
         <div class="ht-wheel-footer">
           <span><b>Ring 1</b> Category (54)</span>
           <span>·</span>
@@ -375,23 +368,90 @@ async function initHeroTeaser() {
   `;
 
   const svg = container.querySelector(".ht-wheel-svg");
-  const hubKicker = container.querySelector("#ht-hub-kicker");
-  const hubTitle = container.querySelector("#ht-hub-title");
-  const hubSub = container.querySelector("#ht-hub-sub");
-  const hubPill = container.querySelector("#ht-hub-pill");
   const cards = [...container.querySelectorAll(".ht-card")];
 
-  const CX = 310;
-  const CY = 310;
-  const R0 = 104;
-  const R1 = 198;
-  const SUB_R = [R1 + 10, R1 + 46];
-  const ACT_R = [R1 + 54, R1 + 88];
-  const SPOT_SPAN = 54;
+  const CX = 320;
+  const CY = 320;
+  const R0 = 124;
+  const R1 = 212;
+  const SUB_R = [R1 + 10, R1 + 48];
+  const ACT_R = [R1 + 56, R1 + 92];
+  const SPOT_SPAN = 56;
 
   const defs = svgEl("defs", {}, svg);
+  const radGrad = svgEl("radialGradient", { id: "ht-hub-grad", cx: "50%", cy: "50%", r: "50%" }, defs);
+  svgEl("stop", { offset: "0%", "stop-color": "#181a28" }, radGrad);
+  svgEl("stop", { offset: "100%", "stop-color": "#0d0f18" }, radGrad);
+
   const gSlices = svgEl("g", {}, svg);
   const gSpots = svgEl("g", {}, svg);
+  const gHub = svgEl("g", { class: "ht-svg-hub" }, svg);
+
+  // Pure SVG center circle + video-style Anton/Inter typography inside the SVG coordinate space
+  svgEl(
+    "circle",
+    {
+      cx: CX,
+      cy: CY,
+      r: R0 - 5,
+      fill: "url(#ht-hub-grad)",
+      stroke: "rgba(255, 255, 255, 0.14)",
+      "stroke-width": 1.8,
+    },
+    gHub,
+  );
+  const hubTopNum = svgEl(
+    "text",
+    {
+      x: CX,
+      y: CY - 34,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      class: "ht-svg-num-big",
+    },
+    gHub,
+  );
+  const hubTopLab = svgEl(
+    "text",
+    {
+      x: CX,
+      y: CY - 2,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      class: "ht-svg-lab",
+    },
+    gHub,
+  );
+  const hubBotNum = svgEl(
+    "text",
+    {
+      x: CX,
+      y: CY + 34,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      class: "ht-svg-num-sm",
+    },
+    gHub,
+  );
+  const hubBotLab = svgEl(
+    "text",
+    {
+      x: CX,
+      y: CY + 62,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      class: "ht-svg-lab",
+    },
+    gHub,
+  );
+
+  function setDefaultHub(accentColor = "#ff3370") {
+    hubTopNum.textContent = "54";
+    hubTopNum.setAttribute("fill", accentColor);
+    hubTopLab.textContent = "CATEGORIES";
+    hubBotNum.textContent = "2,050";
+    hubBotLab.textContent = "SUB-CATEGORIES";
+  }
 
   const slices = categories.map((c, i) => ({
     name: c.name,
@@ -420,7 +480,7 @@ async function initHeroTeaser() {
       {
         fill: s.color,
         stroke: "#0b0c12",
-        "stroke-width": 1.3,
+        "stroke-width": 1.4,
         class: "ht-slice",
       },
       gSlices,
@@ -442,22 +502,24 @@ async function initHeroTeaser() {
         activeCorner = cornerBySliceIdx[i];
         userPausedUntil = performance.now() + 9000;
       }
-      hubKicker.textContent = "Category";
-      hubTitle.textContent = s.name;
-      hubSub.textContent = `${s.clips.toLocaleString("en-US")} clips`;
-      hubPill.textContent = `${((s.clips / totalClips) * 100).toFixed(1)}% of dataset`;
+      const cColor = cornerBySliceIdx[i] !== undefined ? CORNERS[cornerBySliceIdx[i]].color : "#6d7cff";
+      hubTopNum.textContent = s.clips >= 10000 ? `${(s.clips / 1000).toFixed(1)}K` : s.clips.toLocaleString("en-US");
+      hubTopNum.setAttribute("fill", cColor);
+      hubTopLab.textContent = s.name.toUpperCase();
+      hubBotNum.textContent = `${((s.clips / totalClips) * 100).toFixed(1)}%`;
+      hubBotLab.textContent = "OF 542K CLIPS";
     });
 
     s.path.addEventListener("pointerleave", () => {
       hoveredSlice = null;
-      updateHubForCorner(activeCorner);
+      setDefaultHub(CORNERS[activeCorner].color);
     });
 
     s.path.addEventListener("click", () => {
       if (cornerBySliceIdx[i] !== undefined) {
         activeCorner = cornerBySliceIdx[i];
         userPausedUntil = performance.now() + 12000;
-        updateHubForCorner(activeCorner);
+        setDefaultHub(CORNERS[activeCorner].color);
       }
     });
   });
@@ -507,32 +569,21 @@ async function initHeroTeaser() {
     return { ...c, idx, g, subPath, actPath, subLine, actLine, subText, actText };
   });
 
-  function updateHubForCorner(ci) {
-    if (hoveredSlice !== null) return;
-    const c = CORNERS[ci];
-    const s = slices[byName[c.cat]];
-    hubKicker.textContent = `${c.cat} · ${s ? s.clips.toLocaleString("en-US") : ""} clips`;
-    hubTitle.textContent = c.sub;
-    hubSub.textContent = `Action: ${c.act}`;
-    hubPill.textContent = `54 Categories · 2,050 Sub-Categories`;
-  }
-
   cards.forEach((card, ci) => {
     card.addEventListener("pointerenter", () => {
       activeCorner = ci;
       userPausedUntil = performance.now() + 10000;
-      updateHubForCorner(ci);
+      if (hoveredSlice === null) setDefaultHub(CORNERS[ci].color);
     });
     card.addEventListener("click", () => {
       activeCorner = ci;
       userPausedUntil = performance.now() + 14000;
-      updateHubForCorner(ci);
+      if (hoveredSlice === null) setDefaultHub(CORNERS[ci].color);
     });
   });
 
-  updateHubForCorner(0);
+  setDefaultHub(CORNERS[0].color);
 
-  // Measure text helper for fitting radial labels
   const measureCtx = document.createElement("canvas").getContext("2d");
   function fitSliceLabel(name, fontSize) {
     measureCtx.font = `700 ${fontSize}px Inter, sans-serif`;
@@ -540,14 +591,12 @@ async function initHeroTeaser() {
     return Math.min(1, (R1 - R0 - 16) / Math.max(1, w));
   }
 
-  // Initialize 4 CornerHandViews
   const canvases = cards.map((card) => card.querySelector("canvas"));
   const views = canvases.map((canvas, i) => new CornerHandView(canvas, CORNERS[i]));
   Promise.all(views.map((v) => v.init())).catch((err) =>
     console.error("Error loading corner GLBs:", err),
   );
 
-  // Smoothly animated weights and rotation angle
   const weights = [1, 0, 0, 0];
   let currentRot = 0;
   let initializedRot = false;
@@ -569,14 +618,12 @@ async function initHeroTeaser() {
     requestAnimationFrame(tick);
     if (!visible) return;
 
-    // Auto-advance spotlight corner every 4.8s unless user hovered/clicked recently
     if (now > userPausedUntil && now - lastCycleSwitch > 4800) {
       activeCorner = (activeCorner + 1) % CORNERS.length;
       lastCycleSwitch = now;
-      updateHubForCorner(activeCorner);
+      if (hoveredSlice === null) setDefaultHub(CORNERS[activeCorner].color);
     }
 
-    // Smoothly interpolate weights toward activeCorner
     for (let i = 0; i < CORNERS.length; i += 1) {
       const target = i === activeCorner ? 1 : 0;
       weights[i] += (target - weights[i]) * 0.09;
@@ -586,7 +633,6 @@ async function initHeroTeaser() {
       card.classList.toggle("is-active", i === activeCorner);
     });
 
-    // Compute fisheye spans
     const spans = slices.map((s) => s.baseSpan);
     spotEls.forEach((sp, j) => {
       spans[sp.idx] = lerp(spans[sp.idx], SPOT_SPAN, weights[j]);
@@ -600,7 +646,6 @@ async function initHeroTeaser() {
       return start;
     });
 
-    // Compute target wheel rotation so active corner's slice points toward its corner card
     const activeSpot = spotEls[activeCorner];
     const activeMid = starts[activeSpot.idx] + spans[activeSpot.idx] / 2;
     const desiredRot = activeSpot.targetAngle - activeMid;
@@ -612,7 +657,6 @@ async function initHeroTeaser() {
       currentRot += wrap180(desiredRot - currentRot) * 0.085;
     }
 
-    // Update all 54 slices
     slices.forEach((s, i) => {
       const cornerIdx = cornerBySliceIdx[i];
       const sw = cornerIdx !== undefined ? weights[cornerIdx] : 0;
@@ -643,7 +687,7 @@ async function initHeroTeaser() {
       if (labelOpacity > 0.02) {
         const [lx, ly] = polar(CX + ox, CY + oy, (R0 + rOuter) / 2 + 2, mid);
         const flip = fc < 0 ? 180 : 0;
-        const baseFont = 10.5 + sw * 4.5;
+        const baseFont = 11.5 + sw * 4.5;
         const fitted = baseFont * fitSliceLabel(s.name, baseFont);
         s.label.setAttribute(
           "transform",
@@ -653,7 +697,6 @@ async function initHeroTeaser() {
       }
     });
 
-    // Update outer Ring 2 (Sub-Category) & Ring 3 (Atomic Action) arcs for the 4 spotlights
     spotEls.forEach((sp, j) => {
       const w = weights[j];
       if (w < 0.02) {
@@ -666,8 +709,8 @@ async function initHeroTeaser() {
       const ex = CX + Math.cos(rad(cAngle)) * pushOut;
       const ey = CY + Math.sin(rad(cAngle)) * pushOut;
 
-      const subHalf = Math.max(24, spans[sp.idx] * 0.56) * w;
-      const actHalf = Math.max(21, spans[sp.idx] * 0.48) * w;
+      const subHalf = Math.max(25, spans[sp.idx] * 0.56) * w;
+      const actHalf = Math.max(22, spans[sp.idx] * 0.48) * w;
 
       sp.subPath.setAttribute(
         "d",
@@ -678,21 +721,19 @@ async function initHeroTeaser() {
         sector(ex, ey, ACT_R[0], ACT_R[1], cAngle - actHalf, cAngle + actHalf),
       );
 
-      // Keep curved text upright on bottom half of wheel
       const reverseArc = Math.sin(rad(cAngle)) > 0.15;
       sp.subLine.setAttribute(
         "d",
-        arcLine(ex, ey, (SUB_R[0] + SUB_R[1]) / 2, cAngle - 45, cAngle + 45, reverseArc),
+        arcLine(ex, ey, (SUB_R[0] + SUB_R[1]) / 2, cAngle - 46, cAngle + 46, reverseArc),
       );
       sp.actLine.setAttribute(
         "d",
-        arcLine(ex, ey, (ACT_R[0] + ACT_R[1]) / 2, cAngle - 45, cAngle + 45, reverseArc),
+        arcLine(ex, ey, (ACT_R[0] + ACT_R[1]) / 2, cAngle - 46, cAngle + 46, reverseArc),
       );
       sp.subText.setAttribute("opacity", clamp((w - 0.35) / 0.5).toFixed(3));
       sp.actText.setAttribute("opacity", clamp((w - 0.5) / 0.45).toFixed(3));
     });
 
-    // Render all 4 3D hand animations
     const tSec = now * 0.001;
     views.forEach((v, i) => v.render(tSec + i * 0.7));
   }

@@ -588,59 +588,32 @@ button,
   fill: rgba(255, 255, 255, .92);
 }
 
-.ht-wheel-hub {
-  position: absolute;
-  top: calc(50% - 14px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 31%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(22, 24, 36, .98) 0%, rgba(12, 13, 20, .96) 100%);
-  border: 1.5px solid rgba(255, 255, 255, .12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  text-align: center;
+.ht-svg-hub {
   pointer-events: none;
+  user-select: none;
 }
 
-.ht-hub-kicker {
-  color: #9ba5ff;
-  font-size: 10px;
+.ht-svg-num-big {
+  font-family: "Inter", sans-serif;
+  font-size: 46px;
   font-weight: 800;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  line-height: 1.2;
+  letter-spacing: -.03em;
 }
 
-.ht-hub-title {
-  margin-top: 3px;
-  color: #ffffff;
-  font-size: clamp(13px, 1.35vw, 16px);
+.ht-svg-num-sm {
+  font-family: "Inter", sans-serif;
+  font-size: 30px;
   font-weight: 800;
-  line-height: 1.15;
+  fill: #ffffff;
+  letter-spacing: -.03em;
 }
 
-.ht-hub-sub {
-  margin-top: 2px;
-  color: #c3c8da;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.ht-hub-pill {
-  margin-top: 5px;
-  padding: 2px 7px;
-  border-radius: 999px;
-  background: rgba(109, 124, 255, .18);
-  color: #cfd6ff;
-  font-size: 9.5px;
+.ht-svg-lab {
+  font-family: "Inter", sans-serif;
+  font-size: 10.5px;
   font-weight: 700;
+  fill: #a9b1c7;
+  letter-spacing: .1em;
 }
 
 .ht-wheel-footer {
