@@ -405,8 +405,8 @@ button,
 
 .ht-stage {
   display: grid;
-  grid-template-columns: minmax(185px, .86fr) minmax(350px, 1.68fr) minmax(185px, .86fr);
-  gap: 16px;
+  grid-template-columns: minmax(240px, 1.24fr) minmax(220px, .92fr) minmax(240px, 1.24fr);
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -414,7 +414,7 @@ button,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
 }
 
 .ht-card {
@@ -423,7 +423,7 @@ button,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 12px 13px;
+  padding: 10px 12px;
   border-radius: 15px;
   background: rgba(22, 24, 35, .86);
   border: 1.5px solid rgba(255, 255, 255, .09);
@@ -442,17 +442,20 @@ button,
 
 .ht-crumbs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 8px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .ht-crumbs .ht-c0 {
-  padding: 2px 7px;
+  flex-shrink: 0;
+  padding: 2px 6px;
   border-radius: 999px;
   background: rgba(255, 255, 255, .1);
   color: #ffffff;
@@ -465,23 +468,30 @@ button,
 }
 
 .ht-crumbs i {
+  flex-shrink: 0;
   font-style: normal;
   color: rgba(255, 255, 255, .38);
 }
 
 .ht-crumbs .ht-c1 {
   color: #cfd3e2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ht-crumbs .ht-c2 {
   color: #ffffff;
   font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ht-canvas-wrap {
+  flex: 1;
   position: relative;
   width: 100%;
-  aspect-ratio: 26 / 17;
+  min-height: 156px;
+  aspect-ratio: 16 / 10;
   border-radius: 10px;
   background:
     radial-gradient(circle at 50% 55%, rgba(255, 255, 255, .07), transparent 68%),
@@ -522,26 +532,32 @@ button,
 }
 
 .ht-caption {
-  margin-top: 9px;
+  margin-top: 7px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .ht-tag {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 11px;
+  display: block;
+  max-width: 100%;
+  font-size: 12px;
   font-weight: 800;
   color: var(--accent, #ff6699);
-  letter-spacing: .01em;
+  letter-spacing: -.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ht-caption p {
   margin: 0;
   color: #b7bccd;
-  font-size: 12px;
-  line-height: 1.38;
+  font-size: 11.5px;
+  line-height: 1.32;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ht-center {
@@ -554,7 +570,7 @@ button,
 
 .ht-wheel-svg {
   width: 100%;
-  max-width: 560px;
+  max-width: 310px;
   height: auto;
   overflow: visible;
   display: block;

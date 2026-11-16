@@ -17,7 +17,7 @@ const CORNERS = [
     short: "Stirs a mixture in a clay pot with a wooden spoon.",
     src: "static/gallery/hand-teaser-cooking.glb",
     color: "#ff5a36",
-    cam: { dist: 0.78, lift: 0.72, yaw: 0.15 },
+    cam: { dist: 0.68, lift: 0.68, yaw: 0.15 },
   },
   {
     id: "bl",
@@ -29,7 +29,7 @@ const CORNERS = [
     short: "Gestures a thumbs up, then switches to a thumbs down.",
     src: "static/gallery/hand-teaser-gestures.glb",
     color: "#ff3370",
-    cam: { dist: 0.82, lift: 0.36, yaw: -0.1 },
+    cam: { dist: 0.72, lift: 0.34, yaw: -0.1 },
   },
   {
     id: "tr",
@@ -41,7 +41,7 @@ const CORNERS = [
     short: "Sits at a piano and presses the keys with both hands.",
     src: "static/gallery/hand-example-02.glb",
     color: "#6d7cff",
-    cam: { dist: 0.80, lift: 0.68, yaw: -0.15 },
+    cam: { dist: 0.68, lift: 0.64, yaw: -0.15 },
   },
   {
     id: "br",
@@ -53,7 +53,7 @@ const CORNERS = [
     short: "Counts coins on the counter with a precision grip.",
     src: "static/gallery/hand-example-03.glb",
     color: "#14b8a6",
-    cam: { dist: 0.78, lift: 0.88, yaw: 0.1 },
+    cam: { dist: 0.68, lift: 0.82, yaw: 0.1 },
   },
 ];
 
@@ -621,7 +621,7 @@ async function initHeroTeaser() {
     const desiredBaseRot = -90 - targetSlice.baseMid;
     rotStart = currentRot;
     rotDelta = wrap180(desiredBaseRot - currentRot);
-    rotDuration = clamp(0.28 + (Math.abs(rotDelta) / 180) * 0.26, 0.30, 0.54);
+    rotDuration = clamp(0.16 + (Math.abs(rotDelta) / 180) * 0.12, 0.18, 0.30);
     rotProgress = 0;
     rotating = true;
   }
@@ -632,13 +632,13 @@ async function initHeroTeaser() {
     lastFrameTime = now;
     if (!visible) return;
 
-    // Auto-cycle every 5.4s when idle and fully expanded
+    // Auto-cycle every 3.0s when idle and fully expanded
     if (
       !rotating &&
       displayedCorner === activeCorner &&
       expandLevel > 0.98 &&
       now > userPausedUntil &&
-      now - lastCycleSwitch > 5400
+      now - lastCycleSwitch > 3000
     ) {
       activeCorner = (activeCorner + 1) % CORNERS.length;
       lastCycleSwitch = now;
@@ -650,13 +650,13 @@ async function initHeroTeaser() {
     // Phase 3: Expand Ring 2 & Ring 3 outward at 12 o'clock
     if (!rotating) {
       if (displayedCorner !== activeCorner) {
-        expandLevel = Math.max(0, expandLevel - dt * 3.6);
+        expandLevel = Math.max(0, expandLevel - dt * 5.6);
         if (expandLevel <= 0.001) {
           expandLevel = 0;
           startRotationTo(activeCorner);
         }
       } else {
-        expandLevel = Math.min(1, expandLevel + dt * 2.7);
+        expandLevel = Math.min(1, expandLevel + dt * 4.4);
       }
     } else {
       // If user picked a different corner mid-rotation (while rings are already collapsed), retarget smoothly
