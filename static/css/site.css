@@ -398,28 +398,31 @@ button,
   background:
     radial-gradient(ellipse 65% 55% at 50% 50%, rgba(109, 124, 255, .14), transparent 70%),
     linear-gradient(180deg, #0b0c12 0%, #10121b 100%);
-  padding: 20px;
+  padding: 18px;
   color: #f3f4f8;
   text-align: left;
 }
 
 .ht-stage {
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) minmax(300px, 1.38fr) minmax(200px, 1fr);
+  grid-template-columns: minmax(185px, .86fr) minmax(350px, 1.68fr) minmax(185px, .86fr);
   gap: 16px;
-  align-items: center;
+  align-items: stretch;
 }
 
 .ht-col {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 14px;
 }
 
 .ht-card {
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 12px 13px;
   border-radius: 15px;
   background: rgba(22, 24, 35, .86);
@@ -551,9 +554,8 @@ button,
 
 .ht-wheel-svg {
   width: 100%;
-  max-width: 470px;
+  max-width: 560px;
   height: auto;
-  aspect-ratio: 1 / 1;
   overflow: visible;
   display: block;
 }
@@ -576,16 +578,19 @@ button,
 
 .ht-arc-label {
   fill: #ffffff;
-  font-size: 11.5px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: .02em;
+  paint-order: stroke;
+  stroke: rgba(11, 12, 18, .45);
+  stroke-width: 2.5px;
   pointer-events: none;
   user-select: none;
 }
 
 .ht-arc-act {
-  font-size: 11px;
-  fill: rgba(255, 255, 255, .92);
+  font-size: 13px;
+  fill: rgba(255, 255, 255, .95);
 }
 
 .ht-svg-hub {
@@ -595,14 +600,14 @@ button,
 
 .ht-svg-num-big {
   font-family: "Inter", sans-serif;
-  font-size: 46px;
+  font-size: 48px;
   font-weight: 800;
   letter-spacing: -.03em;
 }
 
 .ht-svg-num-sm {
   font-family: "Inter", sans-serif;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 800;
   fill: #ffffff;
   letter-spacing: -.03em;
@@ -610,25 +615,36 @@ button,
 
 .ht-svg-lab {
   font-family: "Inter", sans-serif;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   fill: #a9b1c7;
   letter-spacing: .1em;
 }
 
 .ht-wheel-footer {
-  margin-top: 6px;
+  margin-top: 14px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 10px;
-  color: #9fa6bc;
-  font-size: 11.5px;
-  font-weight: 600;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
 }
 
-.ht-wheel-footer b {
+.ht-ring-line {
+  color: #d6dceb;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.ht-ring-line b {
   color: #ffffff;
+  font-weight: 800;
+}
+
+.ht-ring-line span {
+  color: #9ba5c0;
+  font-weight: 600;
 }
 
 .video-frame {

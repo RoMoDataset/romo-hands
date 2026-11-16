@@ -17,7 +17,7 @@ const CORNERS = [
     short: "Stirs a mixture in a clay pot with a wooden spoon.",
     src: "static/gallery/hand-teaser-cooking.glb",
     color: "#ff5a36",
-    targetAngle: -146,
+    targetAngle: -90,
     cam: { dist: 0.78, lift: 0.72, yaw: 0.15 },
   },
   {
@@ -30,7 +30,7 @@ const CORNERS = [
     short: "Gestures a thumbs up, then switches to a thumbs down.",
     src: "static/gallery/hand-teaser-gestures.glb",
     color: "#ff3370",
-    targetAngle: 146,
+    targetAngle: -90,
     cam: { dist: 0.82, lift: 0.36, yaw: -0.1 },
   },
   {
@@ -43,7 +43,7 @@ const CORNERS = [
     short: "Sits at a piano and presses the keys with both hands.",
     src: "static/gallery/hand-example-02.glb",
     color: "#6d7cff",
-    targetAngle: -34,
+    targetAngle: -90,
     cam: { dist: 0.80, lift: 0.68, yaw: -0.15 },
   },
   {
@@ -56,7 +56,7 @@ const CORNERS = [
     short: "Counts coins on the counter with a precision grip.",
     src: "static/gallery/hand-example-03.glb",
     color: "#14b8a6",
-    targetAngle: 34,
+    targetAngle: -90,
     cam: { dist: 0.78, lift: 0.88, yaw: 0.1 },
   },
 ];
@@ -77,16 +77,11 @@ function sector(cx, cy, r0, r1, a0, a1) {
   return `M${x0.toFixed(2)},${y0.toFixed(2)}A${r1},${r1} 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)}L${x2.toFixed(2)},${y2.toFixed(2)}A${r0},${r0} 0 ${large} 0 ${x3.toFixed(2)},${y3.toFixed(2)}Z`;
 }
 
-function arcLine(cx, cy, r, a0, a1, reverse = false) {
+function arcLine(cx, cy, r, a0, a1) {
   const large = Math.abs(a1 - a0) > 180 ? 1 : 0;
-  if (!reverse) {
-    const [x0, y0] = polar(cx, cy, r, a0);
-    const [x1, y1] = polar(cx, cy, r, a1);
-    return `M${x0.toFixed(2)},${y0.toFixed(2)}A${r},${r} 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`;
-  }
-  const [x0, y0] = polar(cx, cy, r, a1);
-  const [x1, y1] = polar(cx, cy, r, a0);
-  return `M${x0.toFixed(2)},${y0.toFixed(2)}A${r},${r} 0 ${large} 0 ${x1.toFixed(2)},${y1.toFixed(2)}`;
+  const [x0, y0] = polar(cx, cy, r, a0);
+  const [x1, y1] = polar(cx, cy, r, a1);
+  return `M${x0.toFixed(2)},${y0.toFixed(2)}A${r},${r} 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)}`;
 }
 
 const svgEl = (tag, attrs = {}, parent = null) => {
@@ -103,7 +98,6 @@ const slicePalette = (i, n = 54) => {
   return `hsl(${hue.toFixed(1)} ${sat}% ${light}%)`;
 };
 
-// Shared offscreen WebGLRenderer so all 4 corner views use only 1 WebGL context
 let sharedRenderer = null;
 const OFFSCREEN_W = 640;
 const OFFSCREEN_H = 440;
@@ -299,7 +293,6 @@ async function initHeroTeaser() {
   const categories = taxData.categories;
   const totalClips = categories.reduce((acc, c) => acc + c.clips, 0);
 
-  // Build DOM structure inside container — hub is rendered directly inside the SVG so it is always a true mathematical circle
   container.innerHTML = `
     <div class="ht-stage">
       <div class="ht-col ht-col-left">
@@ -329,13 +322,11 @@ async function initHeroTeaser() {
       </div>
 
       <div class="ht-center">
-        <svg class="ht-wheel-svg" viewBox="0 0 640 640" aria-label="RoMo Hands 54-category action taxonomy wheel"></svg>
-        <div class="ht-wheel-footer">
-          <span><b>Ring 1</b> Category (54)</span>
-          <span>·</span>
-          <span><b>Ring 2</b> Sub-Category (2,050)</span>
-          <span>·</span>
-          <span><b>Ring 3</b> Atomic Action (156K)</span>
+        <svg class="ht-wheel-svg" viewBox="0 0 500 604" aria-label="RoMo Hands 54-category action taxonomy wheel"></svg>
+        <div class="ht-wheel-footer" aria-label="Three-level taxonomy rings">
+          <div class="ht-ring-line"><b>Ring 1</b> · Category <span>(54 domains)</span></div>
+          <div class="ht-ring-line"><b>Ring 2</b> · Sub-Category <span>(2,050 sub-categories)</span></div>
+          <div class="ht-ring-line"><b>Ring 3</b> · Atomic Action <span>(156,220 actions)</span></div>
         </div>
       </div>
 
@@ -370,13 +361,16 @@ async function initHeroTeaser() {
   const svg = container.querySelector(".ht-wheel-svg");
   const cards = [...container.querySelectorAll(".ht-card")];
 
-  const CX = 320;
-  const CY = 320;
-  const R0 = 124;
-  const R1 = 212;
-  const SUB_R = [R1 + 10, R1 + 48];
-  const ACT_R = [R1 + 56, R1 + 92];
-  const SPOT_SPAN = 56;
+  // Since the spotlight always rotates to -90 deg (top), the outer Ring 2 and Ring 3
+  // only extend upward above the wheel. Centering at (250, 356) inside a 500x604 viewBox
+  // lets the wheel fill 96% of the middle column width with zero wasted margin on left/right/bottom!
+  const CX = 250;
+  const CY = 356;
+  const R0 = 132;
+  const R1 = 236;
+  const SUB_R = [R1 + 12, R1 + 56];
+  const ACT_R = [R1 + 64, R1 + 106];
+  const SPOT_SPAN = 62;
 
   const defs = svgEl("defs", {}, svg);
   const radGrad = svgEl("radialGradient", { id: "ht-hub-grad", cx: "50%", cy: "50%", r: "50%" }, defs);
@@ -387,7 +381,6 @@ async function initHeroTeaser() {
   const gSpots = svgEl("g", {}, svg);
   const gHub = svgEl("g", { class: "ht-svg-hub" }, svg);
 
-  // Pure SVG center circle + video-style Anton/Inter typography inside the SVG coordinate space
   svgEl(
     "circle",
     {
@@ -404,7 +397,7 @@ async function initHeroTeaser() {
     "text",
     {
       x: CX,
-      y: CY - 34,
+      y: CY - 36,
       "text-anchor": "middle",
       "dominant-baseline": "central",
       class: "ht-svg-num-big",
@@ -415,7 +408,7 @@ async function initHeroTeaser() {
     "text",
     {
       x: CX,
-      y: CY - 2,
+      y: CY - 1,
       "text-anchor": "middle",
       "dominant-baseline": "central",
       class: "ht-svg-lab",
@@ -426,7 +419,7 @@ async function initHeroTeaser() {
     "text",
     {
       x: CX,
-      y: CY + 34,
+      y: CY + 36,
       "text-anchor": "middle",
       "dominant-baseline": "central",
       class: "ht-svg-num-sm",
@@ -437,7 +430,7 @@ async function initHeroTeaser() {
     "text",
     {
       x: CX,
-      y: CY + 62,
+      y: CY + 66,
       "text-anchor": "middle",
       "dominant-baseline": "central",
       class: "ht-svg-lab",
@@ -531,9 +524,9 @@ async function initHeroTeaser() {
       "path",
       {
         fill: c.color,
-        "fill-opacity": 0.44,
+        "fill-opacity": 0.46,
         stroke: "#0b0c12",
-        "stroke-width": 1.4,
+        "stroke-width": 1.5,
       },
       g,
     );
@@ -541,9 +534,9 @@ async function initHeroTeaser() {
       "path",
       {
         fill: c.color,
-        "fill-opacity": 0.24,
+        "fill-opacity": 0.26,
         stroke: "#0b0c12",
-        "stroke-width": 1.4,
+        "stroke-width": 1.5,
       },
       g,
     );
@@ -588,7 +581,7 @@ async function initHeroTeaser() {
   function fitSliceLabel(name, fontSize) {
     measureCtx.font = `700 ${fontSize}px Inter, sans-serif`;
     const w = measureCtx.measureText(name).width;
-    return Math.min(1, (R1 - R0 - 16) / Math.max(1, w));
+    return Math.min(1, (R1 - R0 - 18) / Math.max(1, w));
   }
 
   const canvases = cards.map((card) => card.querySelector("canvas"));
@@ -646,9 +639,10 @@ async function initHeroTeaser() {
       return start;
     });
 
+    // Always rotate the active category to -90 deg (12 o'clock / top of wheel)
     const activeSpot = spotEls[activeCorner];
     const activeMid = starts[activeSpot.idx] + spans[activeSpot.idx] / 2;
-    const desiredRot = activeSpot.targetAngle - activeMid;
+    const desiredRot = -90 - activeMid;
 
     if (!initializedRot) {
       currentRot = desiredRot;
@@ -665,10 +659,10 @@ async function initHeroTeaser() {
       const a1 = a0 + spans[i];
       const mid = (a0 + a1) / 2;
 
-      const pushOut = sw * 8 + (isHovered ? 4 : 0);
+      const pushOut = sw * 9 + (isHovered ? 4 : 0);
       const ox = Math.cos(rad(mid)) * pushOut;
       const oy = Math.sin(rad(mid)) * pushOut;
-      const rOuter = R1 + sw * 6 + (isHovered ? 3 : 0);
+      const rOuter = R1 + sw * 7 + (isHovered ? 3 : 0);
 
       s.path.setAttribute("d", sector(CX + ox, CY + oy, R0, rOuter, a0, a1));
       if (cornerIdx !== undefined && sw > 0.03) {
@@ -680,14 +674,16 @@ async function initHeroTeaser() {
       }
       s.path.setAttribute("opacity", (0.72 + 0.28 * Math.max(sw, isHovered ? 1 : 0)).toFixed(3));
 
-      const showLabel = clamp((spans[i] - 6.2) / 1.8);
+      const showLabel = clamp((spans[i] - 6.0) / 1.8);
       const fc = Math.cos(rad(mid));
-      const labelOpacity = Math.max(showLabel * 0.85, sw) * clamp(Math.abs(fc) / 0.16);
+      // Spotlit slice sits at -90 deg (fc = 0), so keep sw exempted from the left/right flip fade!
+      const flipFade = clamp(Math.abs(fc + 0.32) / 0.18);
+      const labelOpacity = Math.max(showLabel * 0.86 * flipFade, sw);
       s.label.setAttribute("opacity", labelOpacity.toFixed(3));
       if (labelOpacity > 0.02) {
         const [lx, ly] = polar(CX + ox, CY + oy, (R0 + rOuter) / 2 + 2, mid);
-        const flip = fc < 0 ? 180 : 0;
-        const baseFont = 11.5 + sw * 4.5;
+        const flip = fc < -0.32 ? 180 : 0;
+        const baseFont = 12.5 + sw * 5.0;
         const fitted = baseFont * fitSliceLabel(s.name, baseFont);
         s.label.setAttribute(
           "transform",
@@ -705,12 +701,12 @@ async function initHeroTeaser() {
       }
       sp.g.style.display = "";
       const cAngle = starts[sp.idx] + currentRot + spans[sp.idx] / 2;
-      const pushOut = w * 8;
+      const pushOut = w * 9;
       const ex = CX + Math.cos(rad(cAngle)) * pushOut;
       const ey = CY + Math.sin(rad(cAngle)) * pushOut;
 
-      const subHalf = Math.max(25, spans[sp.idx] * 0.56) * w;
-      const actHalf = Math.max(22, spans[sp.idx] * 0.48) * w;
+      const subHalf = Math.max(28, spans[sp.idx] * 0.58) * w;
+      const actHalf = Math.max(25, spans[sp.idx] * 0.50) * w;
 
       sp.subPath.setAttribute(
         "d",
@@ -721,14 +717,13 @@ async function initHeroTeaser() {
         sector(ex, ey, ACT_R[0], ACT_R[1], cAngle - actHalf, cAngle + actHalf),
       );
 
-      const reverseArc = Math.sin(rad(cAngle)) > 0.15;
       sp.subLine.setAttribute(
         "d",
-        arcLine(ex, ey, (SUB_R[0] + SUB_R[1]) / 2, cAngle - 46, cAngle + 46, reverseArc),
+        arcLine(ex, ey, (SUB_R[0] + SUB_R[1]) / 2, cAngle - 52, cAngle + 52),
       );
       sp.actLine.setAttribute(
         "d",
-        arcLine(ex, ey, (ACT_R[0] + ACT_R[1]) / 2, cAngle - 46, cAngle + 46, reverseArc),
+        arcLine(ex, ey, (ACT_R[0] + ACT_R[1]) / 2, cAngle - 52, cAngle + 52),
       );
       sp.subText.setAttribute("opacity", clamp((w - 0.35) / 0.5).toFixed(3));
       sp.actText.setAttribute("opacity", clamp((w - 0.5) / 0.45).toFixed(3));
