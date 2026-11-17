@@ -1,0 +1,89 @@
+name: Leaderboard Submission
+description: Submit a text-to-hand motion generation method to the RoMo Hands Leaderboard
+title: "[Leaderboard] <Method Name>"
+labels: ["leaderboard"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting your method to the **RoMo Hands Leaderboard** (https://romodataset.github.io/romo-hands/#leaderboard)!
+        Please ensure your results are computed on the 17,348 benchmark test clips (`splits/benchmark_test.txt`) using the shared 393-D representation, frozen TMR evaluator, and 3D MANO forward-kinematics physical suite in [Motion Toolbox](https://github.com/RoMoDataset/motion-toolbox).
+
+  - type: input
+    id: method_name
+    attributes:
+      label: Method Name
+      description: Short name as it should appear in the leaderboard table
+      placeholder: e.g., MyHandDiff
+    validations:
+      required: true
+
+  - type: dropdown
+    id: paradigm
+    attributes:
+      label: Generator Paradigm
+      options:
+        - Diffusion
+        - Prefix Diffusion
+        - Masked RVQ / Masked Token
+        - Autoregressive (VQ / FSQ)
+        - Flow Matching
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: paper_url
+    attributes:
+      label: Paper / Project URL & Venue
+      description: Link to arXiv, conference paper, or project page (plus venue/year badge, e.g., NeurIPS '26)
+      placeholder: https://arxiv.org/abs/... (NeurIPS '26)
+    validations:
+      required: true
+
+  - type: input
+    id: code_url
+    attributes:
+      label: Code / Checkpoint Repository URL (Optional)
+      placeholder: https://github.com/...
+
+  - type: textarea
+    id: semantic_metrics
+    attributes:
+      label: Semantic Metrics (201-D Essential TMR, 20 replications)
+      description: Report R@1 (%), R@3 (%), R@10 (%), MM-Dist, FID, and Diversity
+      value: |
+        - R@1 (%): 
+        - R@3 (%): 
+        - R@10 (%): 
+        - MM-Dist: 
+        - FID: 
+        - Diversity: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: physical_metrics
+    attributes:
+      label: Physical Metrics (3D MANO Forward Kinematics)
+      description: Report Accel (m/s²), Intra-Jerk (m/s³), Inter-Pen (%), Self-Pen (mm), and HF Power (ratio)
+      value: |
+        - Accel (m/s²): 
+        - Intra-Jerk (m/s³): 
+        - Inter-Pen (%): 
+        - Self-Pen (mm): 
+        - HF Power (ratio): 
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: protocol
+    attributes:
+      label: Evaluation Protocol Verification
+      options:
+        - label: Evaluated on the 17,348 test clips in `splits/benchmark_test.txt` (40–196 frames)
+          required: true
+        - label: Semantic metrics computed with the official frozen RoMo Hands TMR evaluator (pool of 32, 20 replications)
+          required: true
+        - label: Physical metrics computed at 30 fps via 3D MANO forward kinematics in Motion Toolbox
+          required: true
