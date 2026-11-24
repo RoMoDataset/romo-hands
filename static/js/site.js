@@ -194,4 +194,23 @@ document.querySelectorAll("table[data-sortable-lb]").forEach((table) => {
   });
 });
 
+document.querySelectorAll(".yt-facade").forEach((facade) => {
+  const loadVideo = () => {
+    const id = facade.dataset.ytId;
+    if (!id) return;
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.title = facade.dataset.ytTitle || "YouTube video";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    facade.replaceWith(iframe);
+  };
+  facade.addEventListener("click", (event) => {
+    if (event.target.closest(".yt-external")) return;
+    loadVideo();
+  });
+});
+
+
 

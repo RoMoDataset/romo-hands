@@ -680,12 +680,85 @@ button,
   box-shadow: var(--shadow-lift);
 }
 
-.video-frame video {
+.video-frame video,
+.video-frame iframe {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  border: 0;
   border-radius: calc(var(--radius-lg) - 8px);
   background: #0b0b0e;
+}
+
+.yt-facade {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 8px);
+  background: #0b0b0e;
+  cursor: pointer;
+}
+
+.yt-facade img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.yt-facade:hover img {
+  transform: scale(1.015);
+  filter: brightness(0.92);
+}
+
+.yt-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 51, 112, 0.9);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 12px 36px rgba(255, 51, 112, 0.45);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.yt-facade:hover .yt-play {
+  transform: scale(1.08);
+  background: #ff3370;
+}
+
+.yt-play svg {
+  width: 34px;
+  height: 34px;
+  fill: currentColor;
+  margin-left: 4px;
+}
+
+.yt-external {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(11, 11, 14, 0.72);
+  color: #f4f5f8;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease;
+}
+
+.yt-external:hover {
+  background: rgba(11, 11, 14, 0.92);
 }
 
 .poster-frame {

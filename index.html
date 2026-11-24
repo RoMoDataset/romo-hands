@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/site.css?v=34">
+  <link rel="stylesheet" href="static/css/site.css?v=35">
 </head>
 
 <body>
@@ -83,12 +83,20 @@
           <span>·</span>
           <sup>3</sup><a href="https://www.rutgers.edu/" target="_blank" rel="noopener">Rutgers University</a>
         </div>
-        <div class="venue-line"><div class="venue-pill">NeurIPS 2026</div></div>
+        <div class="venue-line">
+          <a class="venue-pill" href="https://neurips.cc/virtual/2026/poster/150930" target="_blank" rel="noopener" style="text-decoration:none">
+            NeurIPS 2026 · Atlanta Poster Session 6 (Hall C1, #A214) ↗
+          </a>
+        </div>
 
         <div class="hero-actions">
           <a class="button button-dark" href="static/paper/RoMo_Hands.pdf" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/></svg>
-            Paper
+            Paper (PDF)
+          </a>
+          <a class="button button-light" href="https://openreview.net/forum?id=eGVue7g2tp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            OpenReview
           </a>
           <a class="button button-light" href="#video">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="M10 9l5 3-5 3z"/></svg>
@@ -113,6 +121,10 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4zM9 8V5h6v3M4 12h16"/></svg>
             Motion Toolbox
           </a>
+          <a class="button button-light" href="https://about.roblox.com/publications/romo-hands-a-large-scale-richly-organized-dataset-and-semantic-taxonomy-for-human-motion-generation" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
+            Roblox Research
+          </a>
         </div>
       </div>
 
@@ -131,11 +143,13 @@
         <p>The dataset, how it was built, and what the benchmark reveals.</p>
       </div>
       <div class="video-frame reveal">
-        <video controls playsinline preload="metadata" poster="static/video/poster.jpg" width="1920" height="1080" style="display:block;width:100%;height:auto;aspect-ratio:16/9">
-          <source src="static/video/romo_hands_neurips2026.mp4" type="video/mp4">
-          <track kind="captions" src="static/video/romo_hands_neurips2026.en.vtt" srclang="en" label="English">
-          <a href="static/video/romo_hands_neurips2026.mp4">Download the video (MP4)</a>
-        </video>
+        <div class="yt-facade" data-yt-id="LtXHFw5_8nI" data-yt-title="RoMo Hands: 540K Text-to-Hand Motion Sequences | NeurIPS 2026">
+          <img src="static/video/poster.jpg" alt="RoMo Hands (NeurIPS 2026) overview video" width="1920" height="1080" loading="lazy">
+          <button class="yt-play" type="button" aria-label="Play RoMo Hands overview video on YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <a class="yt-external" href="https://youtu.be/LtXHFw5_8nI" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+        </div>
       </div>
     </section>
 
@@ -698,7 +712,7 @@
 
   <button class="to-top" id="to-top" aria-label="Scroll to top">↑</button>
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-  <script src="static/js/site.js?v=11"></script>
+  <script src="static/js/site.js?v=12"></script>
   <script src="static/js/charts.js?v=8"></script>
   <script type="importmap">
   {
